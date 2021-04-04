@@ -10,9 +10,14 @@
     "test": "jest --detectOpenHandles"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.8",
+    "@chakra-ui/react": "^1.4.2",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
     "@types/pg": "^7.14.11",
     "axios": "^0.21.1",
     "babel-jest": "^26.6.3",
+    "framer-motion": "^4.1.2",
     "http": "0.0.1-security",
     "next": "10.0.9",
     "next-server": "^9.0.5",
@@ -22,6 +27,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "runner": "^3.0.0",
+    "swr": "^0.5.5",
     "test-listen": "^1.1.0",
     "uuid": "^8.3.2"
   },

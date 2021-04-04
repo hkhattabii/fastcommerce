@@ -1,6 +1,10 @@
 import productService from '@/services/productService';
 
 export default async function BrandHandler(req, res) {
+  if (req.method === 'GET') {
+    const { status, ...response } = await productService.getAllBrands();
+    return res.status(status).json(response);
+  }
   if (req.method === 'POST') {
     const { status, ...response } = await productService.createBrand(req.body);
     return res.status(status).json(response);
