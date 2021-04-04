@@ -26,11 +26,17 @@ FROM PRDT
 INNER JOIN gndr ON gndr.id = prdt.gender_id
   INNER JOIN brnd ON brnd.id = prdt.brand_id
   INNER JOIN ctgr ON ctgr.id = prdt.category_id
-  inner join disc on disc.category_id = ctgr.id `,
+  LEFT JOIN disc on disc.category_id = ctgr.id `,
     ALLBYDATEASC: `ORDER BY PRDT.createdat ASC `,
     ALLBYDATEDESC: `ORDER BY PRDT.createdat DESC `,
     ALLBYPRICEASC: `ORDER BY price_final ASC `,
     ALLBYPRICEDESC: `ORDER BY price_final DESC `,
+  },
+  CTGR: {
+    ALL: `SELECT * FROM CTGR`,
+  },
+  BRND: {
+    ALL: `SELECT * FROM BRND`
   },
   IMG: {
     BYPRODUCT: `SElECT url FROM IMG WHERE product_id = $1`,

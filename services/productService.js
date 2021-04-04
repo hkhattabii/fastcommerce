@@ -66,12 +66,44 @@ const productService = {
       status: 200,
     };
   },
+  getAllCategories: async () => {
+    try {
+      const request = await pool.query(SELECT_STATEMENT.CTGR.ALL);
+      return {
+        success: true,
+        data: request.rows,
+        status: 200,
+      };
+    } catch (err) {
+      return {
+        success: false,
+        message: err,
+        status: 400,
+      };
+    }
+  },
   createCategory: async ({ name }) => {
     try {
       await pool.query(INSERT_STATEMENT.INSERT_CTGR, [name]);
       return {
         success: true,
         message: 'La catégorie a bien été ajoutée !',
+        status: 200,
+      };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.detail,
+        status: 400,
+      };
+    }
+  },
+  getAllBrands: async () => {
+    try {
+      const brands = await pool.query(SELECT_STATEMENT.BRND.ALL);
+      return {
+        success: true,
+        data: brands.rows,
         status: 200,
       };
     } catch (err) {

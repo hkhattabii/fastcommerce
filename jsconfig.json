@@ -2,6 +2,9 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
+            "@/services/*": [
+                "services/*"
+            ],
             "@/layouts/*": [
                 "layouts/*"
             ],
@@ -14,15 +17,7 @@
             "@/lib/*": [
                 "lib/*"
             ],
-            "@/constants/*": [
-                "constants/*"
-            ],
-            "@/services/*": [
-                "services/*"
-            ],
-            "@/api/*": [
-                "pages/api/*"
-            ]
+            "@/constants/*": ["constants/*"]
         }
     }
 }
