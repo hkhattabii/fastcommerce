@@ -74,6 +74,7 @@ describe('User', () => {
             headers: { 'content-type': 'application/json' },
           })
         ).json();
+        console.log('REEES : ', res)
         expect(res).toStrictEqual({
           message: 'Key (email)=(test@test.com) already exists.',
           success: false,

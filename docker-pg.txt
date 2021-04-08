@@ -1,0 +1,5 @@
+docker run -p 127.0.0.1:5432:5432 --name postgres -e POSTGRES_PASSWORD=root -d postgres
+
+
+// Microservices
+Run authservice link with authdatabase : docker run --name auth-service -p 6001:6001 --link auth-database:auth-database auth-service

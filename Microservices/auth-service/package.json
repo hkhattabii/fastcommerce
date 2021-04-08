@@ -1,0 +1,25 @@
+{
+  "name": "signup-service",
+  "version": "1.0.0",
+  "description": "Service that handles the registration of a user",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": ""
+  },
+  "author": "KHATTABI Hamza",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "express-openid-connect": "^2.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.0.2",
+    "mongoose": "^5.12.3",
+    "nodemon": "^2.0.7"
+  }
+}
