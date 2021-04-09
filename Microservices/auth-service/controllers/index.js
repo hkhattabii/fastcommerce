@@ -6,6 +6,17 @@ const jwt = require('jsonwebtoken')
 
 
 
+const renderSuccess = (message, data) => ({
+    message,
+    success: true,
+    data,
+  });
+  const renderError = (message) => ({
+    message,
+    success: false,
+  });
+
+
 controller.get('/', async (req, res) => {
     try {
         const users = await UserModel.find();
@@ -16,10 +27,13 @@ controller.get('/', async (req, res) => {
 
 })
 
-
 controller.get('/user', async (req, res) => {
     try {
         const user = await UserModel.findOne({[req.query.field]: req.query.value})
+        if (!user) {
+            res.status(404).json({success: false, message: "Le compte est introuvable"})
+            return;
+        }
         res.status(200).json({success: true, data: user})
     } catch(err) {
         res.status(400).json({message: err.message, success: false})
@@ -29,6 +43,11 @@ controller.get('/user', async (req, res) => {
 controller.get('/user/:id', async (req, res) => {
     try {
         const user = await UserModel.findById(req.params.id)
+
+        if (!user) {
+            res.status(404).json({success: false, message: "Le compte est introuvable"})
+            return;
+        }
         res.status(200).json({success: true, data: user})
     } catch (err) {
         res.status(400).json({message: err.message, success: false})
@@ -86,14 +105,34 @@ controller.post('/signIn', async ({body}, res) => {
     res.status(200).json({message: 'Vous êtes connecté !', success: true, data: TokenerizedId})
 })
 
-controller.delete('/', async (req, res) => {
-    console.log('DELETE : ', {[req.query.field]: req.query.value} )
+
+controller.put('/updatePassword', async (req, res) => {
+    const { password, repeatedPassword, email } = req.body
+
+    if (password !== repeatedPassword) {
+        res
+          .status(400)
+          .json(renderError("Les mots de passes doivent être identiques"));
+        return;
+      }
+
     try {
-        await UserModel.deleteOne({[req.query.field]: req.query.value});
-        res.status(200).json({ success: true})
-    } catch(err) {
-        res.status(400).json({message: err.message, success: false})
+        const salt = await bcrypt.genSalt(8)
+        const hashedPassword = await bcrypt.hash(password, salt)
+        const user = await UserModel.updateOne({email}, {password: hashedPassword})
+        if (user.nModified === 0) {
+            res.status(400).json(renderError(`Le compte n'éxiste pas`))
+            return;
+        }
+        res.status(200).json(renderSuccess(`Votre mot de passe a bien été mis à jour !`))
+    } catch (err) {
+        res.status(400).json(renderError(err.message))
     }
+})
+
+controller.delete('/', async (req, res) => {
+    await UserModel.deleteOne({[req.query.field]: req.query.value});
+    res.status(200).json({ success: true})
 })
 
 module.exports = controller

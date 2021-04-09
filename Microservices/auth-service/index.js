@@ -12,7 +12,7 @@ app.use(cors({
 app.use("/", controller);
 
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 6001
 
 app.listen(PORT, async () => {
   try {
