@@ -10,6 +10,19 @@ const SIGNUP = BASEURL + "/signUp"
 const SIGNIN = BASEURL + "/signIn"
 const DELETE = BASEURL + "?field=email&value=test@test.com"
 
+afterAll(async () => {
+  return await fetch(
+    DELETE,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        Origin: "http://localhost",
+      },
+    }
+  );
+});
+
 describe("User", () => {
   test("User should be inserted successfully", async (done) => {
     const res = await fetch(SIGNUP, {
@@ -122,20 +135,6 @@ describe("User", () => {
       message: "Le mot de passe est incorrect",
       success: false,
     });
-    done();
-  });
-  test("User should be deleted successfully", async (done) => {
-    const res = await fetch(
-      DELETE,
-      {
-      method: "DELETE",
-      body: JSON.stringify(),
-      headers: {
-        "content-type": "application/json",
-        Origin: "http://localhost",
-      },
-    });
-    expect(res.status).toStrictEqual(200);
     done();
   });
 });
