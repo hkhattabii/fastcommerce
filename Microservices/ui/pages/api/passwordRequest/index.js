@@ -11,7 +11,6 @@ async function handler(req, res) {
     }
   } else if (req.method === "POST") {
     try {
-      await axios.get(AUTH_SERVICE.BYEMAIL(req.body.email));
       const response = await axios.post(PWD_REQ_SERVICE.ROOT, req.body);
       return res.status(response.status).json(response.data);
     } catch ({ response }) {
@@ -25,7 +24,7 @@ async function handler(req, res) {
         password: req.body.password,
         repeatedPassword: req.body.repeatedPassword,
       });
-      await axios.delete(PWD_REQ_SERVICE.BYIDANDCODE(req.body.id, req.body.code))
+      axios.delete(PWD_REQ_SERVICE.BYIDANDCODE(req.body.id, req.body.code))
       return res.status(response.status).json(response.data);
     } catch ({ response }) {
       return res.status(response.status).json(response.data);
