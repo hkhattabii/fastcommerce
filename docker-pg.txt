@@ -1,7 +1,8 @@
-MONOLITH : docker run -p 127.0.0.1:5432:5432 --name postgres -e POSTGRES_PASSWORD=root -d postgres
-PASSWORD REQ : docker run -p 127.0.0.1:6004:5432 --name password-request-db -e POSTGRES_PASSWORD=root -d postgres
-
+//Databases
+postgres: docker run -p 127.0.0.1:5432:5432 --name postgres -e POSTGRES_PASSWORD=root -d postgres
+authservice: docker run -p 127.0.0.1:5002:27017 --name auth-db -d mongo
+passwordRequestService: docker run -p 127.0.0.1:5004:5432 --name password-request-db -e POSTGRES_PASSWORD=root -d postgres
 
 // Microservices
-Run authservice : docker run --name auth-service -p 6001:6001 --link auth-database:auth-database auth-service
+Run authservice : docker run --name auth-service -p 5001:5001 --link auth-db:auth-db auth-service
 Run passwordRequestService : docker run --name password-request-service -p 5003:5003 --link password-request-db:password-request-db password-request-service

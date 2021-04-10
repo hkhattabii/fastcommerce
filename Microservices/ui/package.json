@@ -7,8 +7,10 @@
     "bootstrap": "npx runner -c ./lib/runner.js bootstrap-database",
     "build": "next build",
     "start": "next start",
-    "test": "jest --detectOpenHandles",
-    "test-standalone": "concurrently \"next dev\" \"jest --detectOpenHandles\""
+    "test": "concurrently \"next dev\" \"jest --detectOpenHandles\"",
+    "test-usr": "concurrently \"next dev\" \"jest -t \"User\" --detectOpenHandles\"",
+    "test-pwdreq": "concurrently \"next dev\" \"jest -t \"PasswordRequest\" --detectOpenHandles\"",
+    "test-standalone": "jest --detectOpenHandles"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.8",
