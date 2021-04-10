@@ -1,4 +1,3 @@
-const { default: axios } = require("axios");
 const fetch = require("isomorphic-unfetch");
 
 const pwd_req = { email: "test@test.com" };

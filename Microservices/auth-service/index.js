@@ -12,13 +12,13 @@ app.use(cors({
 app.use("/", controller);
 
 
-const PORT = process.env.PORT || 6001
+const PORT = process.env.PORT || 5001
 
 app.listen(PORT, async () => {
   try {
     await mongoose.connect(
       process.env.ENV === 'production'
-        ? `mongodb://auth-database:27017`
+        ? `mongodb://auth-db:27017`
         : `mongodb://localhost:27017`,
       {
         useCreateIndex: true,
