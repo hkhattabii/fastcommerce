@@ -10,6 +10,7 @@
     "test": "concurrently \"next dev\" \"jest --detectOpenHandles\"",
     "test-usr": "concurrently \"next dev\" \"jest -t \"User\" --detectOpenHandles\"",
     "test-pwdreq": "concurrently \"next dev\" \"jest -t \"PasswordRequest\" --detectOpenHandles\"",
+    "test-product": "concurrently \"next dev\" \"jest -t \"Product\" --detectOpenHandles\"",
     "test-standalone": "jest --detectOpenHandles"
   },
   "dependencies": {

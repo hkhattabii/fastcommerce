@@ -14,7 +14,13 @@ const PWD_REQ_SERVICE = {
 }
 
 const PRODUCT_SERVICE = {
-    ROOT: 'http://localhost:5005'
+    ROOT: 'http://localhost:5005',
+    ROOTTEST: 'http://localhost:5005?mode=test',
+    SEARCH: (value, mode) => {
+        console.log(`http://localhost:5005?value=${value}&mode=${mode}`)
+        return `http://localhost:5005?value=${value}&mode=${mode}`
+    },
+    DELETE: (objectId) => `http://localhost:5005/${objectId}`
 }
 
 
