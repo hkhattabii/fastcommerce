@@ -1,12 +1,29 @@
 services:
+    auth:
+        build: ./auth-service
+        container_name: auth-service
+        restart: always
+        ports:
+            - '5001:5001'
+        links:
+            - auth-db
+    auth-db:
+        image: mongo
+        container_name: auth-db
+        restart: always
+        ports:
+            - '5002:27017'
     password-request:
         build: ./password-request-service
+        container_name: password-request-service
+        restart: always
         ports:
             - '5003:5003'
         links:
             - password-request-db
     password-request-db:
         image: postgres
+        container_name: password-request-db
         restart: always
         environment: 
             - POSTGRES_HOST_AUTH_METHOD=trust
@@ -14,3 +31,19 @@ services:
             - ./init:/docker-entrypoint-initdb.d
         ports:
             - '5004:5432'
+    product-service:
+        build: ./product-service
+        container_name: product-service
+        restart: always
+        ports:
+            - '5005:5005'
+        links:
+            - product-db
+    product-db:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+        container_name: product-db
+        restart: always
+        environment:
+            - discovery.type=single-node
+        ports:
+            - '5006:9200'
