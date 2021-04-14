@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
 from flask import Flask, request, jsonify
 import requests
 
 app = Flask(__name__)
-elastic_url = 'http://localhost:9200/fastcommerce/products'
+elastic_url = 'http://product-db:9200/fastcommerce/products'
 
 
 def renderSuccess(message, data):
@@ -17,7 +19,7 @@ def createProduct(product):
     response = requests.post(elastic_url, json=product)
     if 'error' in response.json():
         return renderError(response.json())
-    return renderSuccess('Le produit à bien été ajouté !', response.json())
+    return renderSuccess('Le produit a bien été ajouté !', response.json())
 
 
 def deleteProducts():
@@ -25,6 +27,13 @@ def deleteProducts():
     if 'error' in response.json():
         return renderError(response.json())
     return renderSuccess('Les produits ont été supprimés', response.json())
+
+
+def deleteProduct(id):
+    response = requests.delete(elastic_url + '/' + id)
+    if 'error' in response.json():
+        return renderError(response.json())
+    return renderSuccess('Le produit a été supprimé', response.json())
 
 
 def getAllProducts():
@@ -93,16 +102,25 @@ def index():
     return response
 
 
+@app.route('/<id>', methods=['GET', 'DELETE'])
+def product(id):
+    response = {}
+    if request.method == 'DELETE':
+        response = deleteProduct(id)
+        return response
+
+
 @app.route('/all', methods=['GET'])
 def searchAll():
     response = getAllProducts()
     return response
 
 
-@app.route('/filter', methods=['GET'])
+@app.route('/filter', methods=['POST'])
 def filter():
     body = request.json
     response = filterProducts(body['field'], body['order'])
+    print(response)
     return response
 
 
@@ -111,3 +129,7 @@ def search():
     query = request.args.get('query')
     response = searchProducts(query)
     return response
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=False, port='5005')
