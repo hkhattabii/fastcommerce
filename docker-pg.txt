@@ -9,3 +9,10 @@ cartService: docker run -p 127.0.0.1:5008:27017 --name cart-db -d mongo
 Run authservice : docker run --name auth-service -p 5001:5001 --link auth-db:auth-db auth-service -d
 Run passwordRequestService : docker run --name password-request-service -p 5003:5003 --link password-request-db:password-request-db password-request-service
 Run productService : docker run --name product-service -p 5005:5005 --link product-db:product-db product-service
+
+
+docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$PWD:$PWD" \
+    -w="$PWD" \
+    docker/compose:1.29.0 up --build -d
