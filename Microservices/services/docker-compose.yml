@@ -9,3 +9,23 @@ services:
         image: mongo
         ports:
             - '5002:27017'
+    password-request:
+        build: ./password-request-service
+        ports:
+            - '5003:5003'
+        links:
+            - password-request-db
+    password-request-db:
+        image: postgres
+        ports:
+            '5004:5432'
+    product-service:
+        build: ./product-service
+        ports:
+            - '5005:5005'
+        links:
+            - product-db
+    product-db:
+        image: elasticsearch:7.12.0
+        ports:
+            '5006:9200'
