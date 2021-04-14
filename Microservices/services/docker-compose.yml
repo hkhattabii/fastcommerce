@@ -1,0 +1,11 @@
+services:
+    auth:
+        build: ./auth-service
+        ports:
+            - '5001:5001'
+        links:
+            - auth-db
+    auth-db:
+        image: mongo
+        ports:
+            - '5002:27017'

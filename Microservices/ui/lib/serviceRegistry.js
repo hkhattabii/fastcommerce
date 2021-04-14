@@ -14,7 +14,11 @@ const PWD_REQ_SERVICE = {
 }
 
 const PRODUCT_SERVICE = {
-    ROOT: 'http://localhost:5005'
+    ROOT: 'http://localhost:5005',
+    ALL: 'http://localhost:5005/all',
+    FILTER: 'http://localhost:5005/filter',
+    SEARCH: (query) => `http://localhost:5005/search?query=${query}`,
+    DELETE: (id) => `http://localhost:5005/${id}`
 }
 
 
