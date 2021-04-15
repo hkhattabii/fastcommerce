@@ -1,18 +1,32 @@
 const controller = require("express").Router();
 const randomize = require("randomatic");
-const { Pool } = require("pg");
+const pg = require("pg");
 const SELECT_STATEMENT = require("../db/select");
 const INSERT_STATEMENT = require("../db/insert");
 const DELETE_STATEMENT = require("../db/delete");
 
-const pool = new Pool({
-  connectionString:
-    process.env.ENV === "production"
-      ? "postgresql://postgres:root@password-request-db:5432/postgres"
-      : "postgresql://postgres:root@localhost:6004/postgres",
-});
+const connectionName =
+  process.env.INSTANCE_CONNECTION_NAME || '<YOUR INSTANCE CONNECTION NAME>';
+const dbUser = process.env.SQL_USER || '<YOUR DB USER>';
+const dbPassword = process.env.SQL_PASSWORD || '<YOUR DB PASSWORD>';
+const dbName = process.env.SQL_NAME || '<YOUR DB NAME>';
 
-pool.connect();
+const pgConfig = {
+  max: 1,
+  user: dbUser,
+  password: dbPassword,
+  database: dbName,
+};
+
+if (process.env.NODE_ENV === 'production') {
+  pgConfig.host = `/cloudsql/${connectionName}`;
+}
+
+let pool;
+
+if (!pool) {
+  pool = new pg.Pool(pgConfig);
+}
 
 const renderSuccess = (message, data) => ({
   message,
