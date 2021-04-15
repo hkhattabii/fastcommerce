@@ -20,8 +20,8 @@ const renderSuccess = (message, data) => ({
   data,
 });
 const renderError = (message) => ({
-  message: 'COUCOUU',
-  success: true,
+  message,
+  success: false,
 });
 
 controller.get("/", async (req, res) => {
