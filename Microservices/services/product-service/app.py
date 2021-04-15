@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- 
 from flask import Flask, request, jsonify
 import requests
+import os
 
 app = Flask(__name__)
 elastic_url = 'http://product-db:9200/fastcommerce/products'
@@ -132,4 +133,4 @@ def search():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=False, port='5005')
+    app.run(host='0.0.0.0', debug=False, port=os.environ.get('PORT', 5002))

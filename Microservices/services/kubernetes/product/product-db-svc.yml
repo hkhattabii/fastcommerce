@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-db
+  labels:
+    name: product-db
+    app: fastcommerce
+spec:
+  selector:
+    name: product-db
+  type: ClusterIP
+  ports:
+    - name: product-db
+      port: 9200
+      targetPort: 9200
