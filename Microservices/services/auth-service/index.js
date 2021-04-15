@@ -18,7 +18,7 @@ app.listen(PORT, async () => {
   try {
     await mongoose.connect(
       process.env.ENV === 'production'
-        ? `mongodb://https://auth-db-5usc53cgfa-ew.a.run.app`
+        ? `mongodb://auth-db-5usc53cgfa-ew.a.run.app:27017`
         : `mongodb://localhost:27017`,
       {
         useCreateIndex: true,
