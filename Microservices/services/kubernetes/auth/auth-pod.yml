@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: auth
+  labels:
+    name: auth
+    app: fastcommerce
+spec:
+  containers:
+    - image: hkhattabi/auth-svc
+      name: auth
+      ports:
+        - name: auth
+          containerPort: 5001
