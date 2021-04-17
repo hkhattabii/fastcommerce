@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-svc
+  labels:
+    name: cart-svc
+    app: fastcommerce
+spec:
+  selector:
+    name: cart-svc
+  type: ClusterIP
+  ports:
+    - name: cart-svc
+      port: 27017
+      targetPort: 27017
