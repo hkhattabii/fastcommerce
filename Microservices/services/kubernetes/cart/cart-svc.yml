@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+  labels:
+    name: cart
+    app: fastcommerce
+spec:
+  selector:
+    name: cart
+  type: NodePort
+  ports:
+    - name: cart
+      port: 5007
+      targetPort: 5007
+      nodePort: 30007
+      protocol: TCP

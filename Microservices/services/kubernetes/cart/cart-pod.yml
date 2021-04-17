@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cart
+  labels:
+    name: cart
+    app: fastcommerce
+spec:
+  containers:
+    - image: hkhattabi/cart-svc
+      name: cart
+      ports:
+        - name: cart
+          containerPort: 5007

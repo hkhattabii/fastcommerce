@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require('cors')
 const mongoose = require("mongoose");
 const controller = require("./controllers");
+const dbConnector = require("./db-connector");
+
 
 const app = express();
 
@@ -17,13 +19,13 @@ const PORT = process.env.PORT || 5007
 app.listen(PORT, async () => {
   try {
     await mongoose.connect(
-      process.env.ENV === 'production'
-        ? `mongodb://cart-db:27017`
-        : `mongodb://localhost:5008`,
+      dbConnector(process.env.ENV),
+
       {
         useCreateIndex: true,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false
       }
     );
     console.log(`Cart service is running on port ${PORT} ...`);
@@ -31,3 +33,4 @@ app.listen(PORT, async () => {
     console.log("ERROR : ", e);
   }
 });
+
