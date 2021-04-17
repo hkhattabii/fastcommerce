@@ -35,6 +35,4 @@ const schema = new mongoose.Schema({
 })
 
 schema.index({ user_id: 1, product_id: 1}, { unique: true });
-
-
 module.exports = mongoose.model('CartRow', schema)
