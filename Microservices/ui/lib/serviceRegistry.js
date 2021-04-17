@@ -22,8 +22,18 @@ const PRODUCT_SERVICE = {
     DELETE: (id) => `http://34.67.180.73:5005/${id}`
 }
 
+const CART_SERVICE = {
+    BYUSER: (user_id) => `http://167.172.41.60:30007?user_id=${user_id}`,
+    BYUSERANDPRODUCT: (user_id, product_id) => `http://167.172.41.60:30007?user_id=${user_id}&product_id=${product_id}`,
+    INCREASE: (user_id, product_id) => `http://167.172.41.60:30007/increase?user_id=${user_id}&product_id=${product_id}`,
+    DECREASE: (user_id, product_id) => `http://167.172.41.60:30007/decrease?user_id=${user_id}&product_id=${product_id}`,
+    CLEAR: (user_id) => `http://167.172.41.60:30007/clear?user_id=${user_id}`,
+    ROOT: `http://167.172.41.60:30007`,
+}
+
 module.exports = {
     AUTH_SERVICE,
     PWD_REQ_SERVICE,
-    PRODUCT_SERVICE
+    PRODUCT_SERVICE,
+    CART_SERVICE
 }
