@@ -13,5 +13,5 @@ spec:
     - name: backup
       port: 5013
       targetPort: 5013
-      nodePort: 30007
+      nodePort: 30013
       protocol: TCP
