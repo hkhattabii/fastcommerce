@@ -14,7 +14,7 @@ app.use(cors({
 app.use("/", controller);
 
 
-const PORT = process.env.PORT || 5011
+const PORT = process.env.PORT || 5013
 
 app.listen(PORT, async () => {
   try {
@@ -28,7 +28,7 @@ app.listen(PORT, async () => {
         useFindAndModify: false
       }
     );
-    console.log(`Bill service is running on port ${PORT} ...`);
+    console.log(`Backup service is running on port ${PORT} ...`);
   } catch (e) {
     console.log("ERROR : ", e);
   }

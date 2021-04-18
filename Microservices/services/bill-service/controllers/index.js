@@ -22,8 +22,8 @@ controller.get("/", async (req, res) => {
 
 controller.get("/:id", async (req, res) => {
   try {
-    const bil = await Bill.findById(req.params.id);
-    res.status(200).json(renderSuccess(null, bil));
+    const bill = await Bill.findById(req.params.id);
+    res.status(200).json(renderSuccess(null, bill));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
@@ -60,7 +60,7 @@ controller.patch("/pay/:id", async (req, res) => {
 controller.delete("/", async (req, res) => {
   try {
     await Bill.deleteMany();
-    res.status(200).json(renderSuccess("La facture a été supprimée"));
+    res.status(200).json(renderSuccess("Les factures ont été supprimées"));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
@@ -69,7 +69,7 @@ controller.delete("/", async (req, res) => {
 controller.delete("/:id", async (req, res) => {
   try {
     await Bill.findOneAndDelete(req.params.id);
-    res.status(200).json(renderSuccess("Les factures ont été supprimées"));
+    res.status(200).json(renderSuccess("La facture a été supprimée"));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
