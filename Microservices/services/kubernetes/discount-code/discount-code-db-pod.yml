@@ -7,8 +7,18 @@ metadata:
     app: fastcommerce
 spec:
   containers:
-    - image: mongo
-      name: mongo
+    - image: postgres
+      name: postgres
+      env:
+        - name: POSTGRES_PASSWORD
+          value: root
+      volumeMounts:
+        - name: init-db
+          mountPath: /docker-entrypoint.initdb.d
       ports:
-        - name: mongo
-          containerPort: 27017
+        - name: postgres
+          containerPort: 5432
+  volumes:
+    - name: init-db
+      configMap:
+        name: init.sql
