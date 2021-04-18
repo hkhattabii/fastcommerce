@@ -10,6 +10,7 @@ const INSERT_STATEMENT = {
                 VALUES ($1, $2, $3, $4, $5) RETURNING id`,
   INSERT_IMG: `INSERT INTO img (product_id, url) VALUES ($1, $2)`,
   INSERT_DISC: `INSERT INTO DISC (category_id, percentage) VALUES ($1, $2)`,
+  INSER_CRT_ROW: `INSERT INTO crt_row(user_id, product_id) values ($1,$2)`
 };
 
 module.exports = INSERT_STATEMENT;

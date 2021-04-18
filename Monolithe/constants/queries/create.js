@@ -49,6 +49,18 @@ const CREATE_TABLE_STATEMENTS = {
     
       FOREign key (category_id) REFERENCES ctgr (id) on DELETE CASCADE on UPDATE cascade
   )`,
+  CRT_ROW: `
+  CREATE TABLE crt_row (
+    user_id integer,
+      product_id integer,
+      quantity integer not null default 1,
+    
+      primary key (user_id, product_id),
+      
+      foreign key (user_id) references usr (id) on delete CASCADE on UPDATE CASCADE,
+      foreign key (product_id) REFERENCES prdt(id) on delete cascade on update CASCADE
+  )
+  `,
 };
 
 module.exports = CREATE_TABLE_STATEMENTS;

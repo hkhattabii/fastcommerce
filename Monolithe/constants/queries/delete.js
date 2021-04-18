@@ -14,6 +14,10 @@ const DELETE_STATEMENT = {
   DISC: {
     BYID: `DELETE FROM DISC WHERE category_id = $1`,
   },
+  CRT_ROW: {
+    BYUSER: `DELETE FROM crt_row where user_id = $1`,
+    BYUSERANDPRODUCT: `DElETE FROM crt_row where user_id = $1 and product_id = $2`,
+  }
 };
 
 module.exports = DELETE_STATEMENT;
