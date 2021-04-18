@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discount-code-db
+  labels:
+    name: discount-code-db
+    app: fastcommerce
+spec:
+  selector:
+    name: discount-code-db
+  type: ClusterIP
+  ports:
+    - name: discount-code-db
+      port: 5432
+      targetPort: 5432
