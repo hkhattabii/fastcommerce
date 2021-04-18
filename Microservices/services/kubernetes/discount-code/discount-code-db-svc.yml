@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discount-code-svc
+  labels:
+    name: discount-code-svc
+    app: fastcommerce
+spec:
+  selector:
+    name: discount-code-svc
+  type: ClusterIP
+  ports:
+    - name: discount-code-svc
+      port: 27017
+      targetPort: 27017
