@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discount-code
+  labels:
+    name: discount-code
+    app: fastcommerce
+spec:
+  selector:
+    name: discount-code
+  type: NodePort
+  ports:
+    - name: discount-code
+      port: 5009
+      targetPort: 5009
+      nodePort: 30009
+      protocol: TCP
