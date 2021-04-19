@@ -14,6 +14,7 @@ runner.task('bootstrap-database', async () => {
   await init();
 });
 
+
 runner.watch('pages/api/*', async (done) => {
   await init();
   done();
@@ -24,6 +25,7 @@ runner.watch('services/*', async (done) => {
   done();
 });
 
+
 async function init() {
   const result = await pool.query(
     `SELECT * FROM pg_tables
@@ -32,9 +34,11 @@ async function init() {
     [TABLES]
   );
 
+
   for (const row of result.rows) {
     await pool.query(`DROP TABLE ${row.tablename} CASCADE`);
   }
+
 
   for (const CREATE_TABLE_STATEMENT of Object.keys(CREATE_TABLE_STATEMENTS)) {
     await pool.query(CREATE_TABLE_STATEMENTS[CREATE_TABLE_STATEMENT]);

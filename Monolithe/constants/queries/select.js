@@ -16,47 +16,74 @@ PRDT.NAME,
   PRDT.id,
   PRDT.description,
   prdt.price,
-  round(prdt.price - (prdt.price * (disc.percentage / 100.0)), 2) as price_final,
   PRDT.createdat,
-  GNDR.NAME as genre,
-  BRND.NAME as marque, 
-  CTGR.NAME as categorie,
-  disc.percentage as reduction
-FROM PRDT 
-INNER JOIN gndr ON gndr.id = prdt.gender_id
-  INNER JOIN brnd ON brnd.id = prdt.brand_id
-  INNER JOIN ctgr ON ctgr.id = prdt.category_id
-  LEFT JOIN disc on disc.category_id = ctgr.id `,
-    ALLBYDATEASC: `ORDER BY PRDT.createdat ASC `,
-    ALLBYDATEDESC: `ORDER BY PRDT.createdat DESC `,
+  gender,
+  brand, 
+  category,
+  image
+FROM PRDT `,
+    ALLBYDATEASC: `ORDER BY createdat ASC `,
+    ALLBYDATEDESC: `ORDER BY createdat DESC `,
     ALLBYPRICEASC: `ORDER BY price_final ASC `,
     ALLBYPRICEDESC: `ORDER BY price_final DESC `,
-  },
-  CTGR: {
-    ALL: `SELECT * FROM CTGR`,
-  },
-  BRND: {
-    ALL: `SELECT * FROM BRND`,
-  },
-  IMG: {
-    BYPRODUCT: `SElECT url FROM IMG WHERE product_id = $1`,
   },
   CRT: {
     BYUSER: `SELECT 
     prdt.id,
-	PRDT.NAME,
-   	round(prdt.price - (prdt.price * (disc.percentage / 100)), 2) * crt_row.quantity as price,
-    GNDR.NAME as genre,
-    BRND.NAME as marque, 
-    CTGR.NAME as categorie,
-    quantity as quantite
-FROM crt_row
-	INNER join prdt on prdt.id = product_id
-	INNER JOIN gndr ON gndr.id = prdt.gender_id
-    INNER JOIN brnd ON brnd.id = prdt.brand_id
-    INNER JOIN ctgr ON ctgr.id = prdt.category_id
-    INNER JOIN disc ON disc.category_id = ctgr.id
-WHERE user_id = $1`,
+	  PRDT.NAME,
+    gender,
+    brand, 
+    category,
+    quantity
+    FROM crt_row
+  	INNER join prdt on prdt.id = product_id
+    WHERE user_id = $1`,
+    BYUSERANDPRODUCT: `SELECT 
+    prdt.id,
+	  PRDT.NAME,
+    gender,
+    brand, 
+    category,
+    quantity
+    FROM crt_row
+  	INNER join prdt on prdt.id = product_id
+    WHERE user_id = $1
+    AND product_id = $2`,
+  },
+  BILL: {
+    ALL: `SELECT 
+      id,
+      status,
+      createdat
+      FROM BILL`,
+    BYUSER: `SELECT 
+    id,
+    status,
+    createdat
+    FROM BILL
+    WHERE user_id = $1`,
+    BYUSERANDID: `SELECT 
+    id,
+    status,
+    createdat
+    FROM BILL
+    WHERE 
+    user_id = $1 AND 
+    id = $2`,
+  },
+  BILL_PRDT: {
+    ALL: `
+      SELECT
+      PRDT.name,
+      PRDT.price,
+      PRDT.image,
+      BILL_PRDT.quantity
+      FROM
+      BILL_PRDT
+      INNER JOIN PRDT ON PRDT.id = BILL_PRDT.product_id
+      WHERE
+      bill_id = $1
+    `,
   },
 };
 
