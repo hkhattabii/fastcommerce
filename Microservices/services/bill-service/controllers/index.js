@@ -20,9 +20,18 @@ controller.get("/", async (req, res) => {
   }
 });
 
-controller.get("/:id", async (req, res) => {
+controller.get("/:user_id", async (req, res) => {
   try {
-    const bill = await Bill.findById(req.params.id);
+    const bill = await Bill.find({user_id: req.params.user_id});
+    res.status(200).json(renderSuccess(null, bill));
+  } catch (err) {
+    res.status(400).json(renderError(err.message));
+  }
+});
+
+controller.get("/:user_id/:bill_id", async (req, res) => {
+  try {
+    const bill = await Bill.findOne({user_id: req.params.user_id, bill_id: req.params.bill_id});
     res.status(200).json(renderSuccess(null, bill));
   } catch (err) {
     res.status(400).json(renderError(err.message));

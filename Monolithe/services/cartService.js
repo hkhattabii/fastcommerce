@@ -11,9 +11,14 @@ const pool = new Pool({
 pool.connect();
 
 const cartService = {
-  get: async (user_id) => {
+  get: async (user_id, product_id) => {
     try {
-      const carts = await pool.query(SELECT_STATEMENT.CRT.BYUSER, [user_id]);
+      let carts;
+      if (!product_id) {
+        carts = await pool.query(SELECT_STATEMENT.CRT.BYUSER, [user_id]);
+      } else {
+        carts = await pool.query(SELECT_STATEMENT.CRT.BYUSERANDPRODUCT, [user_id, product_id]);
+      }
       return response.success(null, carts.rows);
     } catch (err) {
       throw response.error(err.message);
@@ -47,6 +52,14 @@ const cartService = {
       return response.success("La quantitié du produit a été diminuée de 1");
     } catch (err) {
       throw response.error(err.message);
+    }
+  },
+  remove: async ({user_id, product_id}) => {
+    try {
+      await pool.query(DELETE_STATEMENT.CRT_ROW.BYUSERANDPRODUCT, [user_id, product_id])
+      return response.success('Le produit a été retiré du panier')
+    } catch (err) {
+      throw response.error(err.message)
     }
   },
   clear: async (user_id) => {

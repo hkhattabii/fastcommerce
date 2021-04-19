@@ -7,7 +7,11 @@ const STRING = {
   PRDT: 'prdt',
   IMG: 'img',
   DISC: 'disc',
-  CRT_ROW: 'crt_row'
+  CRT_ROW: 'crt_row',
+  ADDRESS: 'address',
+  BILL: 'bill',
+  BILLPRDT: 'bill_prdt',
+  DELIVERY: 'dlvry'
 };
 
 module.exports = STRING;
