@@ -88,6 +88,7 @@ FROM PRDT `,
   BACKUP: {
     ALL: `
     SELECT
+    BAK_ROW.created_at,
     PRDT.id,
     PRDT.name,
     PRDT.price,
@@ -98,6 +99,7 @@ FROM PRDT `,
     `,
     BYUSER: `
     SELECT
+    BAK_ROW.created_at,
     PRDT.id,
     PRDT.name,
     PRDT.price,
@@ -107,6 +109,31 @@ FROM PRDT `,
     INNER JOIN USR ON USR.id = BAK_ROW.user_id
     WHERE BAK_ROW.user_id = $1
     `,
+  },
+  HISTORY: {
+    ALL: `
+    SELECT
+    HX_ROW.view_at,
+    PRDT.id,
+    PRDT.name,
+    PRDT.price,
+    PRDT.image
+    FROM HX_ROW
+    INNER JOIN PRDT ON PRDT.id = HX_ROW.product_id
+    INNER JOIN USR ON USR.id = HX_ROW.user_id
+    `,
+    BYUSER: `
+  SELECT
+  HX_ROW.view_at,
+  PRDT.id,
+  PRDT.name,
+  PRDT.price,
+  PRDT.image
+  FROM HX_ROW
+  INNER JOIN PRDT ON PRDT.id = HX_ROW.product_id
+  INNER JOIN USR ON USR.id = HX_ROW.user_id
+  WHERE HX_ROW.user_id = $1
+   `,
   },
 };
 
