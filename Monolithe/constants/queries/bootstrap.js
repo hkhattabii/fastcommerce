@@ -3,7 +3,8 @@ const {
   INSERT_PWD_REQ,
   INSERT_PRDT,
   INSER_CRT_ROW,
-  INSERT_BACKUP_ROW
+  INSERT_BACKUP_ROW,
+  INSERT_HISTORY_ROW
 } = require('./insertion');
 
 const users = {
@@ -44,7 +45,17 @@ const backup_row = {
   ]
 }
 
+const history_row = {
+  STATEMENT: INSERT_HISTORY_ROW,
+  VALUES: [
+    [1, 1],
+    [1, 1],
+    [2, 1],
+    [1, 1]
+  ]
+}
 
-const BOOTSTRAP_DATA = { users, pwdReq, prdt, cart_row, backup_row };
+
+const BOOTSTRAP_DATA = { users, pwdReq, prdt, cart_row, backup_row, history_row };
 
 module.exports = BOOTSTRAP_DATA;

@@ -77,6 +77,7 @@ const CREATE_TABLE_STATEMENTS = {
   `,
   BACKUP: `
   CREATE TABLE bak_row (
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
 
@@ -84,7 +85,18 @@ const CREATE_TABLE_STATEMENTS = {
 
     foreign key (user_id) references usr(id) ON DELETE CASCADE ON UPDATE CASCADE,
     foreign key (product_id) references prdt(id) ON DELETE CASCADE ON UPDATE CASCADE
-  )`
+  )`,
+  HISTORY: `
+  CREATE TABLE hx_row (
+    id SERIAL PRIMARY KEY,
+    view_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+
+    foreign key (user_id) references usr(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    foreign key (product_id) references prdt(id) ON DELETE CASCADE ON UPDATE CASCADE
+  )
+  `
 };
 
 module.exports = CREATE_TABLE_STATEMENTS;

@@ -1,11 +1,8 @@
 const DELETE_STATEMENT = require("@/constants/queries/delete");
 const { INSERT_BACKUP_ROW } = require("@/constants/queries/insertion");
-const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
-const UPDATE_STATEMENT = require("@/constants/queries/update");
 const response = require("@/lib/response");
 const { Pool } = require("pg");
-const cartService = require("./cartService");
 const pool = new Pool({
   connectionString: "postgresql://postgres:root@localhost:5432/postgres",
 });
@@ -34,7 +31,6 @@ const backupService = {
         `Le produit ${product_id} a été ajouté à votre liste de souhait !`
       );
     } catch (err) {
-      pool.query("ROLLBACK");
       throw response.error(err.message);
     }
   },
