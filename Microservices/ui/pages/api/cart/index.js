@@ -15,7 +15,7 @@ export default async function CartHandler(req, res) {
         }
     } catch (err) {
         if (err.response) {
-            res.status(err.response.status).json(err.response.data);
+            return res.status(err.response.status).json(err.response.data);
         } else {
             res.status(400).json(err);
         }
