@@ -1,5 +1,4 @@
 import { PRODUCT_SERVICE } from "@/lib/serviceRegistry";
-import productService from "@/services/productService";
 import axios from "axios";
 
 export default async function ProductHandler(req, res) {

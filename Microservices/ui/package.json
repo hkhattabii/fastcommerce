@@ -11,6 +11,7 @@
     "test-usr": "concurrently \"next dev\" \"jest -t \"User\" --detectOpenHandles\"",
     "test-pwdreq": "concurrently \"next dev\" \"jest -t \"PasswordRequest\" --detectOpenHandles\"",
     "test-product": "concurrently \"next dev\" \"jest -t \"Product\" --detectOpenHandles\"",
+    "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
     "test-standalone": "jest --detectOpenHandles"
   },
   "dependencies": {
