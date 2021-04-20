@@ -85,6 +85,29 @@ FROM PRDT `,
       bill_id = $1
     `,
   },
+  BACKUP: {
+    ALL: `
+    SELECT
+    PRDT.id,
+    PRDT.name,
+    PRDT.price,
+    PRDT.image
+    FROM BAK_ROW
+    INNER JOIN PRDT ON PRDT.id = BAK_ROW.product_id
+    INNER JOIN USR ON USR.id = BAK_ROW.user_id
+    `,
+    BYUSER: `
+    SELECT
+    PRDT.id,
+    PRDT.name,
+    PRDT.price,
+    PRDT.image
+    FROM BAK_ROW
+    INNER JOIN PRDT ON PRDT.id = BAK_ROW.product_id
+    INNER JOIN USR ON USR.id = BAK_ROW.user_id
+    WHERE BAK_ROW.user_id = $1
+    `,
+  },
 };
 
 module.exports = SELECT_STATEMENT;

@@ -11,7 +11,8 @@ const STRING = {
   ADDRESS: 'address',
   BILL: 'bill',
   BILLPRDT: 'bill_prdt',
-  DELIVERY: 'dlvry'
+  DELIVERY: 'dlvry',
+  BACKUP: 'bak_row'
 };
 
 module.exports = STRING;

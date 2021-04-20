@@ -72,7 +72,6 @@ describe("Bill", () => {
       method: "PATCH",
     });
     const billResData = await billRes.json()
-    console.log(billResData)
     expect(billRes.status).toStrictEqual(200);
     done();
   });

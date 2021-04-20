@@ -13,6 +13,10 @@ const DELETE_STATEMENT = {
     ALL: `DELETE FROM BILL`,
     BYID: `DELETE FROM BILL WHERE user_id = $1 AND id = $2`,
     BYUSER: `DELETE FROM BILL WHERE user_id = $1`,
+  },
+  BACKUP_ROW: {
+    BYUSERANDPRODUCT: `DELETE FROM BAK_ROW WHERE user_id = $1 AND product_id = $2`,
+    BYUSER: `DELETE FROM BAK_ROW WHERE user_id = $1`
   }
 };
 

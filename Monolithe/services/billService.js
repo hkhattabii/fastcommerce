@@ -83,8 +83,6 @@ const billService = {
         })
       );
       await cartService.clear(user_id);
-      const test = await pool.query(SELECT_STATEMENT.BILL.BYUSERANDID, [user_id, 1])
-      console.log(test)
       pool.query("COMMIT");
       return response.success(
         "Votre panier a été validé ! Procédez au paiement"

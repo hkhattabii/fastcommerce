@@ -54,17 +54,9 @@ const productService = {
   removeProduct: async ({ id }) => {
     try {
       await pool.query(DELETE_STATEMENT.PRDT.BYID, [id]);
-      return {
-        success: true,
-        message: "Le produit a bien été supprimé !",
-        status: 200,
-      };
+      return response.success("Le produit a bien été supprimé !");
     } catch (err) {
-      return {
-        success: false,
-        message: err.detail,
-        status: 400,
-      };
+      throw response.error(err.message)
     }
   },
 };
