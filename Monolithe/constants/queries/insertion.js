@@ -9,7 +9,8 @@ const INSERT_STATEMENT = {
   INSERT_BILL: `INSERT INTO BILL(user_id, address_id) VALUES ($1, $2) RETURNING id`,
   INSERT_BILL_PRDT: `INSERT INTO bill_prdt(bill_id, product_id, quantity) VALUES($1, $2, $3)`,
   INSERT_ADDRESS: `INSERT INTO ADDRESS(street, street_number, zipcode, city, country) VALUES($1, $2, $3, $4, $5) RETURNING id`,
-  INSERT_DELIVERY: `INSERT INTO DLVRY(estimated_date, bill_id, address_id) VALUES($1, $2, $3) RETURNING id` 
+  INSERT_DELIVERY: `INSERT INTO DLVRY(estimated_date, bill_id, address_id) VALUES($1, $2, $3) RETURNING id` ,
+  INSERT_BACKUP_ROW: `INSERT INTO BAK_ROW(user_id, product_id) VALUES ($1, $2) RETURNING user_id, product_id`
 };
 
 module.exports = INSERT_STATEMENT;

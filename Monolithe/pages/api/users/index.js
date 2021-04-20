@@ -1,15 +1,22 @@
-const { Pool } = require('pg');
-const userService = require('@/services/userService');
+const { Pool } = require("pg");
+const userService = require("@/services/userService");
 
 const client = new Pool({
-  connectionString: 'postgresql://postgres:root@localhost:5432/postgres',
+  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
 });
 
 client.connect();
 
 export default async function UserHandler(req, res) {
-  if (req.method === 'GET') {
-    const response = await userService.getUsers();
-    res.status(response.status).json(response);
+  try {
+    if (req.method === "GET") {
+      const {status, ...response} = await userService.getUsers(req.query.user_id);
+      res.status(status).json(response.data);
+    }
+  } catch (err) {
+    if (err.response) {
+      return res.status(err.response.status).json(err.response.data);
+    }
+    res.status(515).json(err.message);
   }
 }

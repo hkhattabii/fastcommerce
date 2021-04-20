@@ -7,9 +7,13 @@
     "bootstrap": "npx runner -c ./lib/runner.js bootstrap-database",
     "build": "next build",
     "start": "next start",
-    "test": "jest --detectOpenHandles",
-    "test-cart": "concurrently \"next dev\" \"jest -t \"Cart\" --detectOpenHandles\"",
-    "test-bill": "concurrently \"next dev\" \"jest -t \"Bill\" --detectOpenHandles\""
+    "test": "concurrently \"next dev\" \"jest --detectOpenHandles\" ",
+    "test-user": "concurrently \"next dev\" \"jest ./test/userService.test.js --detectOpenHandles\"",
+    "test-password-request": "concurrently \"next dev\" \"jest ./test/passwordReqService.test.js --detectOpenHandles\"",
+    "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
+    "test-bill": "concurrently \"next dev\" \"jest ./test/billService.test.js --detectOpenHandles\"",
+    "test-backup": "concurrently \"next dev\" \"jest ./test/backupService.test.js --detectOpenHandles\"",
+    "test-user-standalone": "jest -t ./test/userService.test.js --detectOpenHandles"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.8",
