@@ -13,7 +13,15 @@ const renderError = (message) => ({
 
 controller.get("/", async (req, res) => {
   try {
-    const deliveries = await Delivery.find();
+    const {delivery_id, bill_id, user_id} = req.query
+    let deliveries = []
+    if (delivery_id && bill_id) {
+      deliveries = await Delivery.findOne({_id: delivery_id, user_id, bill_id});
+    } else if (user_id) {
+      deliveries = await Delivery.find({user_id});
+    } else {
+      deliveries = await Delivery.find();
+    }
     res.status(200).json(renderSuccess(null, deliveries));
   } catch (err) {
     res.status(400).json(renderError(err.message));
@@ -30,11 +38,12 @@ controller.get("/:bill_id", async (req, res) => {
 });
 
 controller.post("/", async (req, res) => {
-  const { bill_id, address} = req.body;
+  const { bill_id, address, user_id} = req.body;
   try {
     const delivery = new Delivery({
       bill_id,
-      address
+      address,
+      user_id
     });
     await delivery.save();
     res

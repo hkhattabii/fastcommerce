@@ -14,7 +14,12 @@ const renderSuccess = (message, data) => ({
 
 controller.get('/', async (req, res) => {
     try {
-        const carts = await CartRow.find({user_id: req.query.user_id});
+      let carts = []
+        if (req.query.user_id) {
+          carts = await CartRow.find({user_id: req.query.user_id});
+        } else {
+          carts = await CartRow.find()
+        }
         res.status(200).json(renderSuccess(null,carts))
     } catch(err) {
         res.status(400).json(renderError(err.message))
