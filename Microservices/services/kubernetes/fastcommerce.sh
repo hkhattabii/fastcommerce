@@ -2,6 +2,7 @@
 
 
 files=`ls */*.yml`
+dockerFiles= `ls ../*/Dockerfile`
 declare -a names=("auth" "product" "cart" "bill" "delivery" "backup")
 
 function create() {
@@ -31,6 +32,13 @@ function deleteOne() {
   kubectl delete svc $1 "${1}-db"
 }
 
+function build() {
+    for file in $files
+    do
+        kubectl create -f $file
+    done
+}
+
 
 
 case $1 in
@@ -50,4 +58,6 @@ case $1 in
           delete
         fi
     ;;
+    -build | -b)
+      build
     esac

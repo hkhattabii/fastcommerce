@@ -13,5 +13,5 @@ spec:
     - name: discount-code
       port: 5009
       targetPort: 5009
-      nodePort: 30009
+      nodePort: 30007
       protocol: TCP
