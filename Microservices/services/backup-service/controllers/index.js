@@ -13,17 +13,15 @@ const renderError = (message) => ({
 
 controller.get("/", async (req, res) => {
   try {
-    const backups = await Backup.find();
-    res.status(200).json(renderSuccess(null, backups));
-  } catch (err) {
-    res.status(400).json(renderError(err.message));
-  }
-});
+    const { user_id } = req.query;
+    let backups;
+    if (user_id) {
+      backups = await Backup.find({ user_id: user_id });
+    } else {
+      backups = await Backup.find();
+    }
 
-controller.get("/:user_id", async (req, res) => {
-  try {
-    const backup = await Backup.findOne({user_id: req.params.user_id});
-    res.status(200).json(renderSuccess(null, backup));
+    res.status(200).json(renderSuccess(null, backups));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
@@ -38,33 +36,40 @@ controller.post("/", async (req, res) => {
       product,
     });
     await backup.save();
-    res
-      .status(200)
-      .json(renderSuccess("Vous avez sauvegardé le produit !"));
+    res.status(200).json(renderSuccess("Vous avez sauvegardé le produit !"));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
 });
-
 
 controller.delete("/", async (req, res) => {
   try {
-    await Backup.deleteOne({user_id: req.query.user_id, product_id: req.query.product_id});
-    res.status(200).json(renderSuccess("Le backup a été supprimé"));
+    const { user_id, product_id } = req.query;
+    console.log(req.query)
+    if (user_id && product_id) {
+      await Backup.deleteOne({
+        user_id: user_id,
+        product_id: product_id,
+      });
+      res
+        .status(200)
+        .json(renderSuccess(`Le backup ${product_id} de l'utilisateur ${user_id} a été supprimé`));
+    } else if (user_id) {
+      await Backup.deleteMany({ user_id: req.query.user_id });
+      res
+        .status(200)
+        .json(
+          renderSuccess(
+            `Les backups de l'utilisateur ${user_id} ont été supprimés`
+          )
+        );
+    } else {
+      await Backup.deleteMany()
+      res.status(200).json('Tous les backups ont été supprimés')
+    }
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
 });
-
-controller.delete("/clear", async (req, res) => {
-  try {
-    await Backup.deleteMany({user_id: req.query.user_id});
-    res.status(200).json(renderSuccess("Les backups ont été supprimés"));
-  } catch (err) {
-    res.status(400).json(renderError(err.message));
-  }
-});
-
-
 
 module.exports = controller;
