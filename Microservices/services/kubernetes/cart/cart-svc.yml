@@ -13,5 +13,5 @@ spec:
     - name: cart
       port: 5007
       targetPort: 5007
-      nodePort: 30007
+      nodePort: 30003
       protocol: TCP

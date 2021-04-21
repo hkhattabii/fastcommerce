@@ -13,5 +13,5 @@ spec:
     - name: delivery
       port: 5015
       targetPort: 5015
-      nodePort: 30015
+      nodePort: 30005
       protocol: TCP
