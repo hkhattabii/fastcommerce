@@ -14,7 +14,7 @@ const prdt = {
 };
 
 beforeAll(() => {
-
+  jest.setTimeout(30000);
 });
 
 describe("Product", () => {
