@@ -9,10 +9,16 @@ const pool = new Pool({
   connectionString:
     process.env.ENV === "production"
       ? "postgresql://postgres:root@password-request-db:5432/postgres"
-      : "postgresql://postgres:root@localhost:6004/postgres",
+      : "postgresql://postgres:root@localhost:5004/postgres",
 });
 
 pool.connect();
+
+pool.query(`CREATE TABLE IF NOT EXISTS PWD_REQ (
+  id SERIAL PRIMARY KEY,
+  EMAIL VARCHAR(64) UNIQUE NOT NULL,
+  CODE VARCHAR(4)  NOT NULL 
+)`)
 
 const renderSuccess = (message, data) => ({
   message,
@@ -74,12 +80,12 @@ controller.post("/", async ({ body }, res) => {
 
     const code = randomize("0", 4);
     await pool.query(INSERT_STATEMENT.INSERT_PWD_REQ, [email, code]);
-
     res
       .status(200)
       .json(renderSuccess("Un code a été envoyé vers votre boite mail !"));
     return;
   } catch (err) {
+
     res.status(400).json(renderError(err.message));
   }
 });

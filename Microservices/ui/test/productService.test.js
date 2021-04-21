@@ -30,14 +30,12 @@ describe("Product", () => {
       success: true,
       message: "Le produit a bien été ajouté !",
     });
-    console.log('ID : ', data.data)
     id = data.data
     done()
   });
 
   
   test('Product should be deleted successfully', async (done) => {
-    console.log('ANOTHER ID : ', id)
     const res = await fetch(
       PRODUCT_SERVICE.DELETE(id),
       {

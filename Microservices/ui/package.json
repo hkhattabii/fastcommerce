@@ -8,10 +8,11 @@
     "build": "next build",
     "start": "next start",
     "test": "concurrently \"next dev\" \"jest --detectOpenHandles\"",
-    "test-usr": "concurrently \"next dev\" \"jest -t \"User\" --detectOpenHandles\"",
-    "test-pwdreq": "concurrently \"next dev\" \"jest -t \"PasswordRequest\" --detectOpenHandles\"",
-    "test-product": "concurrently \"next dev\" \"jest -t \"Product\" --detectOpenHandles\"",
+    "test-usr": "concurrently \"next dev\" \"jest ./test/userService.test.js --detectOpenHandles\"",
+    "test-pwdreq": "concurrently \"next dev\" \"jest ./test/passwordReqService.test.js --detectOpenHandles\"",
+    "test-product": "concurrently \"next dev\" \"jest ./test/productService.test.js --detectOpenHandles\"",
     "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
+    "test-bill": "concurrently \"next dev\" \"jest ./test/billService.test.js --detectOpenHandles\"",
     "test-standalone": "jest --detectOpenHandles"
   },
   "dependencies": {

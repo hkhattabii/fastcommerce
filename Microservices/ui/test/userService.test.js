@@ -10,8 +10,22 @@ const SIGNUP = BASEURL + "/signUp"
 const SIGNIN = BASEURL + "/signIn"
 const DELETE = BASEURL + "?field=email&value=test@test.com"
 
+beforeAll(async () => {
+  jest.setTimeout(30000);
+  await fetch(
+    DELETE,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        Origin: "http://localhost",
+      },
+    }
+  );
+});
+
 afterAll(async () => {
-  return await fetch(
+  await fetch(
     DELETE,
     {
       method: "DELETE",
@@ -34,6 +48,7 @@ describe("User", () => {
       },
     });
     const data = await res.json();
+    console.log(data)
     expect(res.status).toStrictEqual(200);
     expect(data).toStrictEqual({
       message: "Merci pour votre inscription !",
@@ -75,7 +90,7 @@ describe("User", () => {
     expect(res.status).toStrictEqual(400);
     expect(data).toStrictEqual({
       message:
-        'E11000 duplicate key error collection: test.auths index: email_1 dup key: { email: "test@test.com" }',
+        'E11000 duplicate key error collection: auth.auths index: email_1 dup key: { email: \"test@test.com\" }',
       success: false,
     });
     done();

@@ -24,6 +24,11 @@ const schema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    user_id: {
+        type: String,
+        required: true,
+        unique: true
+    },
     status: {
         type: String,
         default: 'In Warehouse'
