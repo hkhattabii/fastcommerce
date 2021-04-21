@@ -68,7 +68,7 @@ describe("Cart", () => {
     const cartData = await cartRes.json();
     expect(cartRes.status).toStrictEqual(400);
     expect(cartData.message).toStrictEqual(
-      `E11000 duplicate key error collection: cart-db.cartrows index: user_id_1_product_id_1 dup key: { user_id: \"607ac58ef87cda001acc93a3\", product_id: \"1\" }`
+      `E11000 duplicate key error collection: test.cartrows index: user_id_1_product_id_1 dup key: { user_id: \"607ac58ef87cda001acc93a3\", product_id: \"1\" }`
     );
     done();
   });

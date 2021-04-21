@@ -43,7 +43,7 @@ describe("Backup", () => {
     const bakData = await bakRes.json();
     expect(bakRes.status).toStrictEqual(400);
     expect(bakData.message).toStrictEqual(
-      'E11000 duplicate key error collection: backup-db.backups index: user_id_1_product_id_1 dup key: { user_id: "607ac58ef87cda001acc93a3", product_id: "uwI95XgBfBOT2yfPBZJA" }'
+      'E11000 duplicate key error collection: test.backups index: user_id_1_product_id_1 dup key: { user_id: "607ac58ef87cda001acc93a3", product_id: "uwI95XgBfBOT2yfPBZJA" }'
     );
     done();
   });
