@@ -13,6 +13,7 @@
     "test-product": "concurrently \"next dev\" \"jest ./test/productService.test.js --detectOpenHandles\"",
     "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
     "test-bill": "concurrently \"next dev\" \"jest ./test/billService.test.js --detectOpenHandles\"",
+    "test-backup": "concurrently \"next dev\" \"jest ./test/backupService.test.js --detectOpenHandles\"",
     "test-standalone": "jest --detectOpenHandles"
   },
   "dependencies": {
