@@ -1,78 +1,89 @@
-const controller = require('express').Router()
-const CartRow = require('../models')
+const controller = require("express").Router();
+const CartRow = require("../models");
 
 const renderSuccess = (message, data) => ({
-    message,
-    success: true,
-    data,
-  });
-  const renderError = (message) => ({
-    message,
-    success: false,
-  });
+  message,
+  success: true,
+  data,
+});
+const renderError = (message) => ({
+  message,
+  success: false,
+});
 
-
-controller.get('/', async (req, res) => {
-    try {
-      let carts = []
-        if (req.query.user_id) {
-          carts = await CartRow.find({user_id: req.query.user_id});
-        } else {
-          carts = await CartRow.find()
-        }
-        res.status(200).json(renderSuccess(null,carts))
-    } catch(err) {
-        res.status(400).json(renderError(err.message))
+controller.get("/", async (req, res) => {
+  try {
+    const {user_id, product_id} = req.query
+    let carts = [];
+    if (user_id && product_id) {
+      carts = await CartRow.findOne({ user_id, product_id });
+    } else if (user_id) {
+      carts = await CartRow.find({ user_id });
+    } else {
+      carts = await CartRow.find();
     }
-})
-
-controller.post('/', async (req, res) => {
-  try {
-    const cartRow = new CartRow(req.body)
-    await cartRow.save()
-    res.status(200).json(renderSuccess('Le produit a été ajouté au panier'))
+    res.status(200).json(renderSuccess(null, carts));
   } catch (err) {
-    res.status(400).json(renderError(err.message))
+    res.status(400).json(renderError(err.message));
   }
-})
+});
 
-controller.delete('/', async (req, res) => {
+controller.post("/", async (req, res) => {
   try {
-    await CartRow.deleteOne({user_id: req.query.user_id, product_id: req.query.product_id})
-    res.status(200).json(renderSuccess(`Le produit a bien été supprimé du panier`))
+    const cartRow = new CartRow(req.body);
+    await cartRow.save();
+    res.status(200).json(renderSuccess("Le produit a été ajouté au panier"));
   } catch (err) {
-    res.status(400).json(renderError(err.message))
+    res.status(400).json(renderError(err.message));
   }
-})
+});
 
-controller.patch('/increase', async (req, res) => {
+controller.delete("/", async (req, res) => {
   try {
-    await CartRow.findOneAndUpdate({user_id: req.query.user_id, product_id: req.query.product_id}, {$inc: {quantity: 1}})
-    res.status(200).json(renderSuccess())
-  } catch (err) {
-    res.status(400).json(renderError(err.message))
-  }
-})
+    const { user_id, product_id } = req.query;
+    if (user_id && product_id) {
+      await CartRow.deleteOne({ user_id, product_id });
+      return res.status(200)
+      .json(renderSuccess(`Le produit ${product_id} a bien été supprimé du panier`));
+    } else if (user_id) {
+      await CartRow.deleteMany({ user_id });
+      return res.status(200)
+      .json(renderSuccess(`Les produits de l'utilisateur ${user_id} ont bien été supprimé du panier`));
+    } else {
+      await CartRow.deleteMany()
+      return res.status(200)
+      .json(renderSuccess(`Tout les produits de tout les utilisaterus ont été retirés des paniers`));
+    }
 
-controller.patch('/decrease', async (req, res) => {
+
+  } catch (err) {
+    res.status(400).json(renderError(err.message));
+  }
+});
+
+controller.patch("/increase", async (req, res) => {
   try {
-    await CartRow.findOneAndUpdate({user_id: req.query.user_id, product_id: req.query.product_id}, {$inc: {quantity: -1}})
-    res.status(200).json(renderSuccess())
+    const {user_id, product_id} = req.query
+    await CartRow.findOneAndUpdate(
+      { user_id, product_id },
+      { $inc: { quantity: 1 } }
+    );
+    res.status(200).json(renderSuccess());
   } catch (err) {
-    res.status(400).json(renderError(err.message))
+    res.status(400).json(renderError(err.message));
   }
-})
+});
 
-controller.delete('/clear', async (req, res) => {
+controller.patch("/decrease", async (req, res) => {
   try {
-     await CartRow.deleteMany({user_id: req.query.user_id})
-     res.status(200).json(renderSuccess('Le panier a été nettoyé'))
+    const {user_id, product_id} = req.query
+    await CartRow.findOneAndUpdate(
+      { user_id, product_id },
+      { $inc: { quantity: -1 } }
+    );
+    res.status(200).json(renderSuccess());
   } catch (err) {
-    res.status(400).json(renderError(err.message))
+    res.status(400).json(renderError(err.message));
   }
-})
-
-
-
-
-module.exports = controller
+});
+module.exports = controller;

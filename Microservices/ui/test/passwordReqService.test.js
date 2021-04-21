@@ -9,10 +9,14 @@ const pwd_reset = {
 };
 
 const BASEURL = "http://localhost:3000/api/passwordRequest";
-const GETBYEMAIL = BASEURL + "/byEmail?email=test@test.com";
+const USER_URL = "http://localhost:3000/api/users"
+const BYEMAIL = BASEURL + "/byEmail?email=test@test.com";
+const SIGNUP = USER_URL + "/signUp"
+const USER_BYEMAIL = USER_URL + "/byEmail?email=test@test.com"
 
 beforeAll(async () => {
-  const res = await fetch("http://localhost:3000/api/users/signUp", {
+  jest.setTimeout(30000);
+  await fetch(SIGNUP, {
     method: "POST",
     body: JSON.stringify({
       email: "test@test.com",
@@ -28,26 +32,20 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await fetch(
-    "http://localhost:3000/api/passwordRequest/byEmail?email=test@test.com",
-    {
-      method: "DELETE",
-      headers: {
-        "content-type": "application/json",
-        Origin: "http://localhost",
-      },
-    }
-  );
-  const res = await fetch(
-    "http://localhost:3000/api/users?field=email&value=test@test.com",
-    {
-      method: "DELETE",
-      headers: {
-        "content-type": "application/json",
-        Origin: "http://localhost",
-      },
-    }
-  );
+  await fetch(BYEMAIL, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      Origin: "http://localhost",
+    },
+  });
+  await fetch(USER_BYEMAIL, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      Origin: "http://localhost",
+    },
+  });
   return;
 });
 
@@ -59,14 +57,11 @@ describe("PasswordRequest", () => {
       headers: { "content-type": "application/json" },
     });
     const data = await res.json();
-
     expect(res.status).toStrictEqual(200);
-    expect(data).toStrictEqual({
-      message: "Un code a été envoyé vers votre boite mail !",
-      success: true,
-    });
+    expect(data.message).toStrictEqual("Un code a été envoyé vers votre boite mail !");
     done();
   });
+
 
   test("Code should be already existing", async (done) => {
     const res = await fetch(BASEURL, {
@@ -77,10 +72,7 @@ describe("PasswordRequest", () => {
     const data = await res.json();
 
     expect(res.status).toStrictEqual(409);
-    expect(data).toStrictEqual({
-      message: "Un code a déjà été envoyé vers votre boite mail",
-      success: false,
-    });
+    expect(data.message).toStrictEqual( "Un code a déjà été envoyé vers votre boite mail");
     done();
   });
 
@@ -92,15 +84,12 @@ describe("PasswordRequest", () => {
     });
     const data = await res.json();
     expect(res.status).toStrictEqual(404);
-    expect(data).toStrictEqual({
-      message: "Le compte est introuvable",
-      success: false,
-    });
+    expect(data.message).toStrictEqual("Le compte est introuvable");
     done();
   });
 
   test("Password should not be the same", async (done) => {
-    const passwordRequestResponse = await fetch(GETBYEMAIL, {
+    const passwordRequestResponse = await fetch(BYEMAIL, {
       method: "GET",
       headers: { "content-type": "application/json" },
     });
@@ -119,10 +108,7 @@ describe("PasswordRequest", () => {
     const data = await res.json();
 
     expect(res.status).toStrictEqual(400);
-    expect(data).toStrictEqual({
-      message: "Les mots de passes doivent être identiques",
-      success: false,
-    });
+    expect(data.message).toStrictEqual("Les mots de passes doivent être identiques");
     done();
   });
 
@@ -139,24 +125,24 @@ describe("PasswordRequest", () => {
     const data = await res.json();
 
     expect(res.status).toStrictEqual(404);
-    expect(data).toStrictEqual({
-      message: "Le code est invalide/introuvable",
-      success: false,
-    });
+    expect(data.message).toStrictEqual("Le code est invalide/introuvable");
     done();
   });
 
   test("Password should be updated successfully", async (done) => {
-    const passwordRequestResponse = await fetch(GETBYEMAIL, {
+    const passwordRequestResponse = await fetch(BYEMAIL, {
       method: "GET",
       headers: { "content-type": "application/json" },
     });
     const passwordRequest = (await passwordRequestResponse.json()).data;
 
-    
     const res = await fetch(BASEURL, {
       method: "PUT",
-      body: JSON.stringify({...pwd_reset, code: passwordRequest.code, id: passwordRequest.id}),
+      body: JSON.stringify({
+        ...pwd_reset,
+        code: passwordRequest.code,
+        id: passwordRequest.id,
+      }),
       headers: {
         "content-type": "application/json",
         Origin: "http://localhost",
@@ -166,10 +152,7 @@ describe("PasswordRequest", () => {
     const data = await res.json();
 
     expect(res.status).toStrictEqual(200);
-    expect(data).toStrictEqual({
-      message: "Votre mot de passe a bien été mis à jour !",
-      success: true,
-    });
-    done()
+    expect(data.message).toStrictEqual("Votre mot de passe a bien été mis à jour !");
+    done();
   });
 });

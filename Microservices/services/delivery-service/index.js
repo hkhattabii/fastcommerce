@@ -28,7 +28,7 @@ app.listen(PORT, async () => {
         useFindAndModify: false
       }
     );
-    console.log(`Backup service is running on port ${PORT} ...`);
+    console.log(`Delivery service is running on port ${PORT} ...`);
   } catch (e) {
     console.log("ERROR : ", e);
   }

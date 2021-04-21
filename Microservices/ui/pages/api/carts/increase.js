@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default async function CartIncreaseHandler(req, res) {
     try {
+
         if (req.method === "PATCH") {
             const {status, ...response} = await axios.patch(CART_SERVICE.INCREASE(req.query.user_id, req.query.product_id))
             res.status(status).json(response.data)

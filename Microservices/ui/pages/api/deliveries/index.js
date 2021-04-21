@@ -4,8 +4,11 @@ import axios from "axios";
 export default async function (req, res) {
   try {
       if (req.method === "GET") {
-          const {status, ...response} = await axios.get(DELIVERY_SERVICE.ROOT)
+          const {status, ...response} = await axios.get(DELIVERY_SERVICE.ROOT(req.query.user_id, req.query.delivery_id, req.query.bill_id))
           res.status(status).json(response.data)
+      } else if (req.method === "DELETE") {
+        const {status, ...response} = await axios.delete(DELIVERY_SERVICE.ROOT(req.query.user_id, req.query.delivery_id, req.query.bill_id))
+        res.status(status).json(response.data)
       }
   } catch (err) {
     if (err.response) {
