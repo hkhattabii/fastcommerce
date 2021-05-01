@@ -1,5 +1,5 @@
 const runner = require('runner');
-const { Pool } = require('pg');
+const { Pool, types } = require('pg');
 const TABLES = require('../constants/queries/tables');
 const CREATE_TABLE_STATEMENTS = require('../constants/queries/create');
 const BOOTSTRAP_DATA = require('../constants/queries/bootstrap');
@@ -8,6 +8,7 @@ const pool = new Pool({
   connectionString: 'postgresql://postgres:root@localhost:5432/postgres',
 });
 
+types.setTypeParser(types.builtins.FLOAT4, BigInt)
 pool.connect();
 
 runner.task('bootstrap-database', async () => {

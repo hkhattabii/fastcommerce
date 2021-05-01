@@ -2,6 +2,8 @@ const STRING = {
   USR: 'usr',
   PWD_REQ: 'pwd_req',
   PRDT: 'prdt',
+  DISC_CODE: 'disc_code',
+  CRT: 'crt',
   CRT_ROW: 'crt_row',
   ADDRESS: 'address',
   BILL: 'bill',

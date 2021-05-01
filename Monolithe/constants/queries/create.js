@@ -1,16 +1,16 @@
 const CREATE_TABLE_STATEMENTS = {
-  CREATE_TABLE_USR: `CREATE TABLE USR (
+  USR: `CREATE TABLE USR (
       id SERIAL PRIMARY KEY,
       EMAIL VARCHAR(64) UNIQUE NOT NULL,
       PASSWORD TEXT NOT NULL,
       CREATED_AT TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   );`,
-  CREATE_TABLE_PWD_REQ: `CREATE TABLE PWD_REQ (
+  PWD_REQ: `CREATE TABLE PWD_REQ (
   	id SERIAL PRIMARY KEY,
 	  EMAIL VARCHAR(64) UNIQUE NOT NULL,
   	CODE VARCHAR(4)  NOT NULL 
 )`,
-  CREATE_TABLE_PRDT: `create table PRDT (
+  PRDT: `CREATE TABLE PRDT (
       id serial primary key,
       name varchar(128) not null,
       description TEXT,
@@ -21,15 +21,27 @@ const CREATE_TABLE_STATEMENTS = {
       category VARCHAR(64) NOT NULL,
       image TEXT NOT NULL
   )`,
-  CRT_ROW: ` CREATE TABLE crt_row (
-      user_id integer,
+  DISC_CODE: `CREATE TABLE DISC_CODE (
+    id serial PRIMARY KEY,
+    code VARCHAR(6),
+    reduction integer
+  )`,
+  CRT: `CREATE TABLE crt (
+    user_id integer PRIMARY KEY,
+    discount_code_id integer,
+
+    foreign key (user_id) references usr(id) on delete CASCADE on update CASCADE,
+    foreign key (discount_code_id) references disc_code(id) on delete SET NULL
+  )`,
+  CRT_ROW: `CREATE TABLE crt_row (
+      cart_id integer,
       product_id integer,
       quantity integer not null default 1,
     
-      primary key (user_id, product_id),
+      primary key (cart_id, product_id),
       
-      foreign key (user_id) references usr(id) on delete CASCADE on UPDATE CASCADE,
-      foreign key (product_id) REFERENCES prdt(id) on delete cascade on update CASCADE
+      foreign key (cart_id) references crt(user_id) on delete CASCADE on update CASCADE,
+      foreign key (product_id) REFERENCES prdt(id) on delete CASCADE on update CASCADE
   )`,
   ADDRESS: `
   CREATE TABLE ADDRESS (
