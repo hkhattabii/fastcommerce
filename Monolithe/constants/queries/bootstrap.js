@@ -4,7 +4,9 @@ const {
   INSERT_PRDT,
   INSER_CRT_ROW,
   INSERT_BACKUP_ROW,
-  INSERT_HISTORY_ROW
+  INSERT_HISTORY_ROW,
+  INSERT_DISC_CODE,
+  INSERT_CRT
 } = require('./insertion');
 
 const users = {
@@ -28,6 +30,23 @@ const prdt = {
     ['CREW - Sweatshirt', 46.75, 'Femme', 'Sweat', 'Adidas', 'https://img01.ztat.net/article/spp-media-p1/84632a5d17e23740b98d8e661a6a6c53/70a0e071c32a4e948a1294072a389de8.jpg?imwidth=762'],
   ],
 };
+
+const disc_code = {
+  STATEMENT: INSERT_DISC_CODE,
+  VALUES: [
+    ['A96YHB', 20],
+    ['KUPA28',10],
+    ['NQKHW5', 5]
+  ]
+}
+
+const crt = {
+  STATEMENT: INSERT_CRT,
+  VALUES: [
+    [1],
+    [2]
+  ]
+}
 
 const cart_row = {
   STATEMENT: INSER_CRT_ROW,
@@ -56,6 +75,6 @@ const history_row = {
 }
 
 
-const BOOTSTRAP_DATA = { users, pwdReq, prdt, cart_row, backup_row, history_row };
+const BOOTSTRAP_DATA = { users, pwdReq, prdt, disc_code, crt, cart_row, backup_row, history_row };
 
 module.exports = BOOTSTRAP_DATA;

@@ -11,33 +11,50 @@ const SELECT_STATEMENT = {
     BYIDANDCODE: `SELECT * FROM pwd_req where id = $1 AND code = $2`,
   },
   PRDT: {
-    ALLBASE: `SELECT 
-PRDT.NAME,
+    ALLBASE: `SELECT
+  PRDT.NAME,
   PRDT.id,
   PRDT.description,
-  prdt.price,
-  PRDT.createdat,
-  gender,
-  brand, 
-  category,
+  PRDT.price,
+  PRDT.createdAt,
+  PRDT.gender,
+  PRDT.brand, 
+  PRDT.category,
   image
 FROM PRDT `,
-    ALLBYDATEASC: `ORDER BY createdat ASC `,
-    ALLBYDATEDESC: `ORDER BY createdat DESC `,
-    ALLBYPRICEASC: `ORDER BY price_final ASC `,
-    ALLBYPRICEDESC: `ORDER BY price_final DESC `,
+    ALLBYDATEASC: `ORDER BY createdAt ASC `,
+    ALLBYDATEDESC: `ORDER BY createdAt DESC `,
+    ALLBYPRICEASC: `ORDER BY price ASC `,
+    ALLBYPRICEDESC: `ORDER BY price DESC `,
+  },
+  DISC_CODE: {
+    ALL: `SELECT * FROM disc_code`,
+    BYCODE: `SELECT * FROM disc_code WHERE code = $1`,
+    BYID: `SELECT * FROM disc_code WHERE id = $1`
   },
   CRT: {
-    BYUSER: `SELECT 
+    BYID: `SELECT * FROM crt WHERE id = $1`,
+    BYUSER: `SELECT
+      user_id,
+      disc_code.reduction
+      FROM crt
+      LEFT OUTER JOIN disc_code on disc_code.id = crt.discount_code_id
+      WHERE user_id = $1
+    `
+  },
+  CRT_ROW: {
+    BYCART: `SELECT
     prdt.id,
-	  PRDT.NAME,
-    gender,
-    brand, 
-    category,
-    quantity
+	  prdt.name,
+    prdt.price * crt_row.quantity as price,
+    prdt.price as unit_price,
+    prdt.gender,
+    prdt.brand, 
+    prdt.category,
+    crt_row.quantity
     FROM crt_row
   	INNER join prdt on prdt.id = product_id
-    WHERE user_id = $1`,
+    INNER JOIN crt on crt.user_id = $1`,
     BYUSERANDPRODUCT: `SELECT 
     prdt.id,
 	  PRDT.NAME,

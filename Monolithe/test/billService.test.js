@@ -46,7 +46,7 @@ describe("Bill", () => {
     });
     const cartData = await cartRes.json();
     expect(cartRes.status).toStrictEqual(200);
-    expect(cartData.data.length).toStrictEqual(0);
+    expect(cartData.data.products.length).toStrictEqual(0);
     done();
   });
   test("All Bills should be returned from a user", async (done) => {

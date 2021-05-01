@@ -5,9 +5,12 @@ const DELETE_STATEMENT = {
   PRDT: {
     BYID: `DELETE FROM PRDT WHERE id = $1`,
   },
+  DISC_CODE: {
+    BYID: `DELETE FROM DISC_CODE WHERE id = $1`
+  },
   CRT_ROW: {
-    BYUSER: `DELETE FROM crt_row where user_id = $1`,
-    BYUSERANDPRODUCT: `DElETE FROM crt_row where user_id = $1 and product_id = $2`,
+    BYCART: `DELETE FROM crt_row where cart_id = $1`,
+    BYCARTANDPRODUCT: `DElETE FROM crt_row where cart_id = $1 and product_id = $2`,
   },
   BILL: {
     ALL: `DELETE FROM BILL`,

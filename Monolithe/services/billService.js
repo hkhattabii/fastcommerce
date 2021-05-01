@@ -72,9 +72,9 @@ const billService = {
         user_id,
         addressReq.rows[0].id
       ]);
-      const productCarts = await cartService.get(user_id);
+      const cart = await cartService.get(user_id);
       await Promise.all(
-        productCarts.data.data.map(async (productCart) => {
+        cart.data.data.products.map(async (productCart) => {
           await pool.query(INSERT_STATEMENT.INSERT_BILL_PRDT, [
             insertBillReq.rows[0].id,
             productCart.id,
@@ -82,7 +82,7 @@ const billService = {
           ]);
         })
       );
-      await cartService.clear(user_id);
+      await cartService.clear(cart.data.data.id);
       pool.query("COMMIT");
       return response.success(
         "Votre panier a été validé ! Procédez au paiement"

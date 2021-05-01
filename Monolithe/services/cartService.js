@@ -4,6 +4,7 @@ const SELECT_STATEMENT = require("@/constants/queries/select");
 const UPDATE_STATEMENT = require("@/constants/queries/update");
 const response = require("@/lib/response");
 const { Pool } = require("pg");
+const discountCodeService = require("./discountCodeService");
 const pool = new Pool({
   connectionString: "postgresql://postgres:root@localhost:5432/postgres",
 });
@@ -11,15 +12,16 @@ const pool = new Pool({
 pool.connect();
 
 const cartService = {
-  get: async (user_id, product_id) => {
+  get: async (user_id) => {
     try {
-      let carts;
-      if (!product_id) {
-        carts = await pool.query(SELECT_STATEMENT.CRT.BYUSER, [user_id]);
-      } else {
-        carts = await pool.query(SELECT_STATEMENT.CRT.BYUSERANDPRODUCT, [user_id, product_id]);
-      }
-      return response.success(null, carts.rows);
+      const cart = await pool.query(SELECT_STATEMENT.CRT.BYUSER, [user_id]);
+      const cart_rows = await pool.query(SELECT_STATEMENT.CRT_ROW.BYCART, [cart.rows[0].user_id]);
+      return response.success(null, {
+        id: cart.rows[0].user_id,
+        reduction: cart.rows[0].reduction,
+        products: cart_rows.rows,
+        total: cart_rows.rows.reduce((a, { price }) => a + parseFloat(price), 0) - cart.rows[0].reduction
+      });
     } catch (err) {
       throw response.error(err.message);
     }
@@ -28,6 +30,24 @@ const cartService = {
     try {
       await pool.query(INSERT_STATEMENT.INSER_CRT_ROW, [user_id, product_id]);
       return response.success("Le produit a été ajouté au panier");
+    } catch (err) {
+      throw response.error(err.message);
+    }
+  },
+  addCode: async ({ code, user_id }) => {
+    let discountCodeRes;
+    try {
+      discountCodeRes = await discountCodeService.get(null, code)
+    } catch (err) {
+      throw response.error(err.message);
+    }
+    if (!discountCodeRes.data.data) {
+      throw response.error('Le code n existe pas', 404)
+    }
+
+    try {
+      await pool.query(UPDATE_STATEMENT.CRT.ADD_DISCOUNT_CODE, [discountCodeRes.data.data.id, user_id])
+      return response.success("La réduction a bien été appliquée au panier !")
     } catch (err) {
       throw response.error(err.message);
     }
@@ -54,17 +74,17 @@ const cartService = {
       throw response.error(err.message);
     }
   },
-  remove: async ({user_id, product_id}) => {
+  remove: async ({cart_id, product_id}) => {
     try {
-      await pool.query(DELETE_STATEMENT.CRT_ROW.BYUSERANDPRODUCT, [user_id, product_id])
+      await pool.query(DELETE_STATEMENT.CRT_ROW.BYCARTANDPRODUCT, [cart_id, product_id])
       return response.success('Le produit a été retiré du panier')
     } catch (err) {
       throw response.error(err.message)
     }
   },
-  clear: async (user_id) => {
+  clear: async (cart_id) => {
     try {
-        await pool.query(DELETE_STATEMENT.CRT_ROW.BYUSER, [user_id])
+        await pool.query(DELETE_STATEMENT.CRT_ROW.BYCART, [cart_id])
         return response.success('Le panier a été reinitilisé')
     } catch (err) {
       throw response.error(err.message);
