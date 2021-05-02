@@ -11,6 +11,14 @@ const pool = new Pool({
 
 pool.connect();
 
+function getTotalPrice(cart_rows) {
+  const basePrice = cart_rows.reduce((a, { price }) => a + parseFloat(price), 0)
+  if (cart_rows.reduction > 0) {
+    return basePrice - cart_rows.reduction
+  }
+  return basePrice
+}
+
 const cartService = {
   get: async (user_id) => {
     try {
@@ -20,7 +28,7 @@ const cartService = {
         id: cart.rows[0].user_id,
         reduction: cart.rows[0].reduction,
         products: cart_rows.rows,
-        total: cart_rows.rows.reduce((a, { price }) => a + parseFloat(price), 0) - cart.rows[0].reduction
+        total: getTotalPrice(cart_rows.rows)
       });
     } catch (err) {
       throw response.error(err.message);

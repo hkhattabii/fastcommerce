@@ -55,18 +55,16 @@ const CREATE_TABLE_STATEMENTS = {
   `,
   BILL: `CREATE TABLE bill (
     id SERIAL PRIMARY KEY,
-    status TEXT NOT NULL DEFAULT 'Waiting for payment',
     createdat TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id INTEGER NOT NULL,
-    address_id INTEGER NOT NULL,
+    total DECIMAL NOT NULL,
 
-    foreign key (user_id) references usr(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    foreign key (address_id) references address(id) ON DELETE CASCADE ON UPDATE CASCADE
+    foreign key (user_id) references usr(id) ON DELETE CASCADE ON UPDATE CASCADE
   )`,
   BILL_PRDT: `CREATE TABLE bill_prdt (
       bill_id integer NOT NULL,
       product_id integer NOT NULL,
-      quantity integer NOT NULL default 0,
+      quantity integer NOT NULL default 1,
 
       primary key (bill_id, product_id),
 

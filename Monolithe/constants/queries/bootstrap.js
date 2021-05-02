@@ -48,13 +48,6 @@ const crt = {
   ]
 }
 
-const cart_row = {
-  STATEMENT: INSER_CRT_ROW,
-  VALUES: [
-    [1, 2],
-    [1, 1],
-  ]
-}
 
 const backup_row = {
   STATEMENT: INSERT_BACKUP_ROW,
@@ -75,6 +68,6 @@ const history_row = {
 }
 
 
-const BOOTSTRAP_DATA = { users, pwdReq, prdt, disc_code, crt, cart_row, backup_row, history_row };
+const BOOTSTRAP_DATA = { users, pwdReq, prdt, disc_code, crt, backup_row, history_row };
 
 module.exports = BOOTSTRAP_DATA;

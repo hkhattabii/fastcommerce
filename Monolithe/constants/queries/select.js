@@ -69,24 +69,46 @@ FROM PRDT `,
   },
   BILL: {
     ALL: `SELECT 
-      id,
-      status,
-      createdat
-      FROM BILL`,
+      BILL.id,
+      createdat,
+      total,
+      ADDRESS.street,
+      ADDRESS.street_number,
+      ADDRESS.zipcode,
+      ADDRESS.city,
+      ADDRESS.country
+      FROM BILL
+      INNER JOIN DLVRY ON DLVRY.bill_id = BILL.id
+      INNER JOIN ADDRESS ON ADDRESS.id = DLVRY.address_id
+      `,
     BYUSER: `SELECT 
-    id,
-    status,
-    createdat
+    BILL.id,
+    createdat,
+    total,
+    ADDRESS.street,
+    ADDRESS.street_number,
+    ADDRESS.zipcode,
+    ADDRESS.city,
+    ADDRESS.country
     FROM BILL
-    WHERE user_id = $1`,
+    INNER JOIN DLVRY ON DLVRY.bill_id = BILL.id
+    INNER JOIN ADDRESS ON ADDRESS.id = DLVRY.address_id
+    WHERE BILL.user_id = $1`,
     BYUSERANDID: `SELECT 
-    id,
-    status,
-    createdat
+    BILL.id,
+    createdat,
+    total,
+    ADDRESS.street,
+    ADDRESS.street_number,
+    ADDRESS.zipcode,
+    ADDRESS.city,
+    ADDRESS.country
     FROM BILL
+    INNER JOIN DLVRY ON DLVRY.bill_id = BILL.id
+    INNER JOIN ADDRESS ON ADDRESS.id = DLVRY.address_id
     WHERE 
-    user_id = $1 AND 
-    id = $2`,
+    BILL.user_id = $1 AND 
+    BILL.id = $2`,
   },
   BILL_PRDT: {
     ALL: `

@@ -4,14 +4,14 @@ const fetch = require("isomorphic-unfetch");
 
 const BASE_URL = "http://localhost:3000/api/bills";
 const CARTUSER = "http://localhost:3000/api/carts?user_id=1";
-const BYUSER = BASE_URL + "/1"
-const BYUSERANDBILL = BASE_URL + "/1/1"
+const BYUSER = BASE_URL + "?user_id=1"
+const BYUSERANDBILL = BASE_URL + "?user_id=1&bill_id=1"
 const billPost = {
   user_id: 1,
   address: {
-    street: "Rue Jean-Baptiste Decock",
-    streetNumber: 17,
-    zipcode: "1080",
+    street: "test street",
+    streetNumber: 1,
+    zipcode: "1000",
     city: "Bruxelles",
     country: "Belgique",
   },
@@ -36,7 +36,7 @@ describe("Bill", () => {
     const billData = await billRes.json();
     expect(billRes.status).toStrictEqual(200);
     expect(billData.message).toStrictEqual(
-      "Votre panier a été validé ! Procédez au paiement"
+      "Votre panier a été validé ! Votre colis sera livré à l'adresse : test street, 1 - Bruxelles, Belgique"
     );
     done();
   });
@@ -65,14 +65,6 @@ describe("Bill", () => {
     const billData = await billRes.json();
     expect(billRes.status).toStrictEqual(200);
     expect(billData.data.length).toStrictEqual(1);
-    done();
-  });
-  test("The bill should be paid", async (done) => {
-    const billRes = await fetch(BYUSERANDBILL, {
-      method: "PATCH",
-    });
-    const billResData = await billRes.json()
-    expect(billRes.status).toStrictEqual(200);
     done();
   });
   test("All bills should be deleted from a user", async (done) => {
