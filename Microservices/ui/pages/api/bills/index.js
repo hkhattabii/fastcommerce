@@ -8,8 +8,9 @@ export default async function (req, res) {
           res.status(status).json(response.data)
       } else if (req.method === "POST") {
         const {status: cartStatus, ...cartResponse} = await axios.get(CART_SERVICE.ROOT(req.body.user_id))
-        const {status: billStatus, ...billResponse} = await axios.post(BILL_SERVICE.ROOT(), {...req.body, products: cartResponse.data.data})
-        await axios.delete(CART_SERVICE.ROOT(req.body.user_id))
+        console.log(cartResponse.data.data)
+        const {status: billStatus, ...billResponse} = await axios.post(BILL_SERVICE.ROOT(), {...req.body, cart: cartResponse.data.data})
+        await axios.patch(CART_SERVICE.CLEAR(req.body.user_id))
         res.status(billStatus).json(billResponse.data)
       } else if (req.method === "DELETE") {
         const {status, ...response} = await axios.delete(BILL_SERVICE.ROOT(req.query.user_id, req.query.bill_id))
@@ -20,7 +21,6 @@ export default async function (req, res) {
         res.status(statusDelivery).json(responseDelivery.data)
       }
   } catch (err) {
-    console.log('ERR : ', err)
     if (err.response) {
       return res.status(err.response.status).json(err.response.data);
     }
