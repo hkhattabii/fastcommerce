@@ -6,4 +6,4 @@ ENV ENV=production
 ENV PORT=5001
 ENV SECRET=1t1qw6yb
 RUN npm install --production
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]

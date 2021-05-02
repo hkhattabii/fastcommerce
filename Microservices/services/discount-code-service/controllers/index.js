@@ -4,12 +4,10 @@ const { Pool } = require("pg");
 const SELECT_STATEMENT = require("../db/select");
 const INSERT_STATEMENT = require("../db/insert");
 const DELETE_STATEMENT = require("../db/delete");
+const dbConnector = require("../db-connector");
 
 const pool = new Pool({
-  connectionString:
-    process.env.ENV === "production"
-      ? "postgresql://postgres:root@discount-code-db/postgres"
-      : "postgresql://postgres:root@localhost:5432/postgres",
+  connectionString: dbConnector(process.env.ENV),
 });
 
 pool.connect();
@@ -26,55 +24,46 @@ const renderError = (message) => ({
 
 controller.get("/", async (req, res) => {
   try {
-    const getAllDiscountCode = await pool.query(SELECT_STATEMENT.ALL);
-    res.status(200).json(renderSuccess(null, getAllDiscountCode.rows));
-    return;
+    const { code } = req.query;
+    if (code) {
+      const getDiscountCode = await pool.query(SELECT_STATEMENT.BYCODE, [code]);
+      if (getDiscountCode.rowCount === 0) {
+        return res.status(404).json(renderError("Le code n'existe pas"));
+      }
+      return res.status(200).json(renderSuccess(null, getDiscountCode.rows[0]));
+    } else {
+      const getAllDiscountCode = await pool.query(SELECT_STATEMENT.ALL);
+      res.status(200).json(renderSuccess(null, getAllDiscountCode.rows));
+    }
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
 });
 
-controller.get('/:code', async (req, res) => {
+controller.post("/", async (req, res) => {
+  const { amount } = req.body;
   try {
-    const getDiscountCode = await pool.query(SELECT_STATEMENT.BYCODE, [req.params.code])
-    if (getDiscountCode.rowCount === 0) {
-      return res.status(404).json(renderError("Le code n'éxiste pas"))
-    }
-    res.status(200).json(renderSuccess(null, getDiscountCode.rows[0]))
+    const code = randomize("A0", 6);
+    await pool.query(INSERT_STATEMENT.DISC_CODE, [code, amount]);
+    res.status(200).json(renderSuccess("Le code a été généré"));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }
-})
+});
 
-controller.post('/', async (req, res) => {
-  const { amount } = req.body
+controller.delete("/", async (req, res) => {
   try {
-    const code = randomize("A0", 6)
-    await pool.query(INSERT_STATEMENT.DISC_CODE, [code,amount])
-    res.status(200).json(renderSuccess('Le code a été généré'))
+    const { code } = req.query;
+    if (code) {
+      await pool.query(DELETE_STATEMENT.BYCODE, [code]);
+      return res.status(200).json(renderSuccess("Le code a été supprimé"));
+    } else {
+      await pool.query(DELETE_STATEMENT.ALL);
+      res.status(200).json(renderSuccess("Les codes ont été supprimés"));
+    }
   } catch (err) {
-    res.status(400).json(renderError(err.message))
+    res.status(400).json(renderError(err.message));
   }
-})
-
-controller.delete('/', async (req, res) => {
-  try {
-    await pool.query(DELETE_STATEMENT.ALL)
-    res.status(200).json(renderSuccess('Les codes ont été supprimés'))
-  } catch (err) {
-    res.status(400).json(renderError(err.message))
-  }
-})
-
-controller.delete('/:code', async (req, res) => {
-  try {
-    await pool.query(DELETE_STATEMENT.BYCODE, [req.params.code])
-    res.status(200).json(renderSuccess('Le code a été supprimé'))
-  } catch (err) {
-    res.status(400).json(renderError(err.message))
-  }
-})
-
-
+});
 
 module.exports = controller;

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
+    _id: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true
@@ -12,27 +16,26 @@ const productSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
-    }
-})
-
-const schema = new mongoose.Schema({
-    user_id: {
-        type: String,
-        required: true
     },
-    product_id: {
-        type: String,
-        required: true
-    },
-    product: {
-        type: productSchema,
+    unitPrice: {
+        type: Number,  
         required: true
     },
     quantity: {
         type: Number,
         default: 1
-    },
+    }
 })
 
-schema.index({ user_id: 1, product_id: 1}, { unique: true });
-module.exports = mongoose.model('CartRow', schema)
+const schema = new mongoose.Schema({
+    reduction: {
+        type: Number,
+        default: 0
+    },
+    products: {
+        type: [productSchema],
+        default: []
+    }
+})
+
+module.exports = mongoose.model('Cart', schema)

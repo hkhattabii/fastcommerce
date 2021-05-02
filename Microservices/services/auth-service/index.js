@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors')
 const mongoose = require("mongoose");
 const controller = require("./controllers");
+const dbConnector = require('./db-connector')
 
 const app = express();
 
@@ -17,16 +18,16 @@ const PORT = process.env.PORT || 5001
 app.listen(PORT, async () => {
   try {
     await mongoose.connect(
-      process.env.ENV === 'production'
-        ? `mongodb://auth-db/auth`
-        : `mongodb://localhost:27017`,
+      dbConnector(process.env.ENV),
+
       {
         useCreateIndex: true,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false
       }
     );
-    console.log(`Signup service is running on port ${PORT} ...`);
+    console.log(`Auth service is running on port ${PORT} ...`);
   } catch (e) {
     console.log("ERROR : ", e);
   }

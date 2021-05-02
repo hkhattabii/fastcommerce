@@ -4,14 +4,35 @@
   "description": "Service that handles the registration of a user",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "test": ""
+    "start:dev": "better-npm-run start:dev",
+    "start:test": "better-npm-run start:test",
+    "start:prod": "better-npm-run start:prod"
+  },
+  "betterScripts": {
+    "start:dev": {
+      "command": "nodemon index.js",
+      "env": {
+        "ENV": "development"
+      }
+    },
+    "start:test": {
+      "command": "node index.js",
+      "env": {
+        "ENV": "test"
+      }
+    },
+    "start:prod": {
+      "command": "node index.js",
+      "env": {
+        "ENV": "production"
+      }
+    }
   },
   "author": "KHATTABI Hamza",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "better-npm-run": "^0.1.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
