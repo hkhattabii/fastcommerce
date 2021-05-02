@@ -4,6 +4,7 @@ const init = require("@/lib/runner");
 const BASE_URL = "http://localhost:3000/api/users";
 const SIGNUP = BASE_URL + "/signUp";
 const SIGNIN = BASE_URL + "/signIn";
+const CARTUSER_URL = "http://localhost:3000/api/carts?user_id=3";
 
 const userPost = {
   email: "test@test.com",
@@ -22,9 +23,14 @@ describe("User", () => {
       body: JSON.stringify(userPost),
       headers: { "content-type": "application/json" },
     })
+    const cartRes = await fetch(CARTUSER_URL, {
+      method: "GET",
+    })
     const userData = await userRes.json()
+    const cartData = await cartRes.json()
     expect(userRes.status).toStrictEqual(200)
     expect(userData.message).toStrictEqual("Merci pour votre inscription");
+    expect(cartData.data.products.length).toStrictEqual(0)
     done();
   });
   test("User should not be inserted (not same password)", async (done) => {

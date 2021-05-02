@@ -1,6 +1,6 @@
 const INSERT_STATEMENT = {
   INSERT_USR: `
-    INSERT INTO USR (email, password) VALUES ($1, $2)
+    INSERT INTO USR (email, password) VALUES ($1, $2) RETURNING id
 `,
   INSERT_PWD_REQ: `INSERT INTO pwd_req(email, code) values ($1, $2)`,
   INSERT_PRDT: `INSERT INTO prdt(name, price, gender, category, brand, image)

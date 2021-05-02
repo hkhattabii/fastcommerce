@@ -54,7 +54,7 @@ FROM PRDT `,
     crt_row.quantity
     FROM crt_row
   	INNER join prdt on prdt.id = product_id
-    INNER JOIN crt on crt.user_id = $1`,
+    WHERE cart_id = $1`,
     BYUSERANDPRODUCT: `SELECT 
     prdt.id,
 	  PRDT.NAME,

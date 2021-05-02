@@ -25,6 +25,12 @@ const PRODUCT_SERVICE = {
   DELETE: (id) => `http://167.172.41.60:30002/${id}`,
 };
 
+const DISCOUNT_CODE_SERVICE = {
+  ROOT: (code) => {
+    return code ? `http://167.172.41.60:30007?code=${code}` : `http://167.172.41.60:30007`
+  }
+}
+
 const CART_SERVICE = {
   BYUSER: (user_id) => `http://167.172.41.60:30003?user_id=${user_id}`,
   BYUSERANDPRODUCT: (user_id, product_id) =>
@@ -34,6 +40,7 @@ const CART_SERVICE = {
   DECREASE: (user_id, product_id) =>
     `http://167.172.41.60:30003/decrease?user_id=${user_id}&product_id=${product_id}`,
   CLEAR: (user_id) => `http://167.172.41.60:30003/clear?user_id=${user_id}`,
+  APPLY_REDUCTION: (user_id, reduction) => `http://167.172.41.60:30003/applyReduction?user_id=${user_id}&reduction=${reduction}`,
   ROOT: (user_id, product_id) => {
     return user_id && product_id
       ? `http://167.172.41.60:30003?user_id=${user_id}&product_id=${product_id}`
@@ -77,6 +84,7 @@ module.exports = {
   AUTH_SERVICE,
   PWD_REQ_SERVICE,
   PRODUCT_SERVICE,
+  DISCOUNT_CODE_SERVICE,
   CART_SERVICE,
   BILL_SERVICE,
   DELIVERY_SERVICE,

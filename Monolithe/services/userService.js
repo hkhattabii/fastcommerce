@@ -1,4 +1,4 @@
-const { INSERT_USR } = require("@/constants/queries/insertion");
+const { INSERT_USR, INSERT_CRT } = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
 const response = require("@/lib/response");
 
@@ -29,7 +29,10 @@ const userService = {
       throw response.error("Les mots de passe doivent être identiques")
     }
     try {
-      await pool.query(INSERT_USR, [email, password]);
+      pool.query('BEGIN')
+      const user = await pool.query(INSERT_USR, [email, password]);
+      await pool.query(INSERT_CRT, [user.rows[0].id])
+      pool.query('COMMIT')
       return response.success("Merci pour votre inscription")
     } catch (err) {
       throw response.error(err.message)

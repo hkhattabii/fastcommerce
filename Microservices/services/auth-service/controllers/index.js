@@ -72,7 +72,7 @@ controller.post('/signUp', async ({body}, res) => {
 
     try {
         await user.save()
-        res.status(200).json({message: 'Merci pour votre inscription !', success: true})
+        res.status(200).json({message: 'Merci pour votre inscription !', success: true, data: user})
         return;
     } catch (err) {
         res.status(400).json({message: err.message, success: false})
