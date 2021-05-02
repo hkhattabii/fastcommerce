@@ -31,31 +31,18 @@ controller.get("/", async (req, res) => {
 });
 
 controller.post("/", async (req, res) => {
-  const { user_id, address, products } = req.body;
+  const { user_id, address, cart } = req.body;
+  const {street, streetNumber, city, country} = address
   try {
     const bill = new Bill({
       user_id,
       address,
-      products,
-      total: products.reduce((a, b) => a + b.product.price, 0),
+      cart,
     });
     const billSaved = await bill.save();
     res
       .status(200)
-      .json(renderSuccess("Votre panier a été validé ! Procédez au paiement", {bill_id: billSaved._id}));
-  } catch (err) {
-    res.status(400).json(renderError(err.message));
-  }
-});
-
-controller.patch("/", async (req, res) => {
-  try {
-    const { user_id, bill_id} = req.query
-    const billPaid = await Bill.findOneAndUpdate(
-      { user_id: user_id, _id: bill_id },
-      { status: "Payment accepted" }
-    );
-    res.status(200).json(renderSuccess("Votre panier a été payé !", {bill_id: billPaid._id, address: billPaid.address, user_id: billPaid.user_id}));
+      .json(renderSuccess(`Votre panier a été validé ! Votre colis sera livré à l'adresse : ${street}, ${streetNumber} - ${city}, ${country}`, {bill_id: billSaved._id}));
   } catch (err) {
     res.status(400).json(renderError(err.message));
   }

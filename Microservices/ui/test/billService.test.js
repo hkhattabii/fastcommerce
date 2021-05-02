@@ -1,69 +1,45 @@
-const { CART_SERVICE, BILL_SERVICE } = require("@/lib/serviceRegistry");
+const { CART_SERVICE, BILL_SERVICE, DELIVERY_SERVICE } = require("@/lib/serviceRegistry");
 const fetch = require("isomorphic-unfetch");
 
+
+const user_id = "608e9a7d17f98500211273e3"
+
 const BASE_URL = "http://localhost:3000/api/bills";
-const CART_URL = "http://localhost:3000/api/carts";
-const DELIVERY_URL = "http://localhost:3000/api/deliveries";
-const BYUSER = BASE_URL + "?user_id=607ac58ef87cda001acc93a3";
-const BYUSERANDBILL = BASE_URL + "?user_id=607ac58ef87cda001acc93a3&bill_id="
-const CART_BYUSER = CART_URL + "?user_id=607ac58ef87cda001acc93a3";
-const DELIVERY_BYUSER = DELIVERY_URL + "?user_id=607ac58ef87cda001acc93a3";
+const CARTUSER = `http://localhost:3000/api/carts?user_id=${user_id}`;
+const BYUSER = BASE_URL + `?user_id=${user_id}`
 
 
-let bill_id
-const cartPost = {
-  user_id: "607ac58ef87cda001acc93a3",
-  product_id: "1",
-  product: {
-    name: "Test Product",
-    imageUrl: "image",
-    price: "5.99",
-  },
-};
 
+let bill_id;
 const billPost = {
-  user_id: "607ac58ef87cda001acc93a3",
+  user_id,
   address: {
-    street: "Rue Jean-Baptiste Decock",
-    streetNumber: 17,
-    zipcode: "1080",
+    street: "test street",
+    streetNumber: 1,
+    zipcode: "1000",
     city: "Bruxelles",
     country: "Belgique",
   },
 };
 
-const payPost= {
-    user_id: "607ac58ef87cda001acc93a3",
-    bill_id: undefined
-}
 beforeAll(async () => {
   jest.setTimeout(30000);
-  await fetch(CART_SERVICE.ROOT("607ac58ef87cda001acc93a3"), {
+  await fetch(CART_SERVICE.ROOT(user_id), {
     method: "delete",
   });
 });
 
 afterAll(async () => {
-  await fetch(BYUSER, {
+  await fetch(BILL_SERVICE.ROOT(user_id), {
     method: "DELETE",
   });
-  await fetch(DELIVERY_BYUSER, {
+  await fetch(DELIVERY_SERVICE.ROOT(user_id), {
     method: "DELETE",
   });
 });
 
 describe("Bill", () => {
-  test("The bill should be created successfully", async (done) => {
-    const cartRes = await fetch(CART_URL, {
-      method: "POST",
-      body: JSON.stringify(cartPost),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    const cartGetRes = await fetch(CART_BYUSER, {
-      method: "GET",
-    });
+  test("Bill should be created successfully", async (done) => {
     const billRes = await fetch(BASE_URL, {
       method: "POST",
       body: JSON.stringify(billPost),
@@ -71,40 +47,62 @@ describe("Bill", () => {
         "content-type": "application/json",
       },
     });
-    const cartGetBillRes = await fetch(CART_BYUSER, {
-      method: "GET",
-    });
-    expect(cartRes.status).toStrictEqual(200);
-    expect(cartGetRes.status).toStrictEqual(200);
-    expect(cartGetBillRes.status).toStrictEqual(200);
+    const billData = await billRes.json();
     expect(billRes.status).toStrictEqual(200);
-    const cartGetData = await cartGetRes.json();
-    const billData = await billRes.json()
-    const cartGetBillData = await cartGetBillRes.json();
-    expect(cartGetData.data.length).toStrictEqual(1);
-    expect(cartGetBillData.data.length).toStrictEqual(0);
+    expect(billData.message).toStrictEqual(
+      "Votre panier a été validé ! Votre colis sera livré à l'adresse : test street, 1 - Bruxelles, Belgique"
+    );
     bill_id = billData.data.bill_id
     done();
   });
-
-  test("Bill should be paid successfully", async (done) => {
-    const billRes = await fetch(BYUSERANDBILL + "" + bill_id, {
-      method: "PATCH",
-      body: JSON.stringify({...payPost, bill_id}),
-      headers: {
-        "content-type": "application/json",
-      },
+  test("Cart should be cleared", async (done) => {
+    const cartRes = await fetch(CARTUSER, {
+      method: "GET",
     });
-    const deliveryRes = await fetch(DELIVERY_BYUSER, {
-        method: 'GET'
-    })
-    const deliveryData = await deliveryRes.json()
-    const billData = await billRes.json()
-    expect(billRes.status).toStrictEqual(200);
-    expect(deliveryRes.status).toStrictEqual(200);
-    expect(billData.message).toStrictEqual('La livraison est initialisé !')
-    expect(deliveryData.data.length).toStrictEqual(1)
+    const cartData = await cartRes.json();
+    expect(cartRes.status).toStrictEqual(200);
+    expect(cartData.data.products.length).toStrictEqual(0);
     done();
   });
-  
+  test("All Bills should be returned from a user", async (done) => {
+    const billRes = await fetch(BYUSER, {
+      method: "GET",
+    });
+    const billData = await billRes.json();
+    expect(billRes.status).toStrictEqual(200);
+    expect(billData.data.length).toStrictEqual(1);
+    done();
+  });
+  test("One specific Bill should be returned from a user", async (done) => {
+    const billRes = await fetch(BYUSER + `&bill_id=${bill_id}`, {
+      method: "GET",
+    });
+    const billData = await billRes.json();
+    expect(billRes.status).toStrictEqual(200);
+    done();
+  });
+  test("All bills should be deleted from a user", async (done) => {
+    const billRes = await fetch(BYUSER, {
+      method: "DELETE",
+    });
+    const billDeletedRes = await fetch(BYUSER, {
+        method: "GET"
+    })
+    const billDeletedData = await billDeletedRes.json()
+    expect(billRes.status).toStrictEqual(200);
+    expect(billDeletedRes.status).toStrictEqual(200)
+    expect(billDeletedData.data.length).toStrictEqual(0);
+    done();
+  });
+  test("One specific bill should be deleted from a user", async (done) => {
+    const billRes = await fetch(BYUSER + `&bill_id=${bill_id}`, {
+      method: "DELETE",
+    });
+    const billDeletedRes = await fetch(BYUSER + `&bill_id=${bill_id}`, {
+        method: "GET"
+    })
+    expect(billRes.status).toStrictEqual(200);
+    expect(billDeletedRes.status).toStrictEqual(200)
+    done();
+  });
 });

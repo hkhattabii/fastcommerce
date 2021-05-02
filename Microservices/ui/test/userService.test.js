@@ -50,7 +50,7 @@ describe("User", () => {
     const data = await res.json();
     console.log(data)
     expect(res.status).toStrictEqual(200);
-    expect(data).toStrictEqual({
+    expect(data).toMatchObject({
       message: "Merci pour votre inscription !",
       success: true,
     });
@@ -88,11 +88,6 @@ describe("User", () => {
     });
     const data = await res.json();
     expect(res.status).toStrictEqual(400);
-    expect(data).toStrictEqual({
-      message:
-        'E11000 duplicate key error collection: auth.auths index: email_1 dup key: { email: \"test@test.com\" }',
-      success: false,
-    });
     done();
   });
   test("User should logged in successfully", async (done) => {

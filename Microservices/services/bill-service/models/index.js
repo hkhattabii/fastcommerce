@@ -43,17 +43,9 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products: {
+    cart: {
         type: Array,
         required: true
-    },
-    total: {
-        type: Number,
-        required: true
-    },
-    status: {
-        type: String,
-        default: 'Waiting for payment'
     },
     address: {
         type: addressSchema,

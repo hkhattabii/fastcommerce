@@ -87,7 +87,7 @@ describe("Cart", () => {
     const cartRowData = await cartRowRes.json();
     expect(increaseRes.status).toStrictEqual(200);
     expect(cartRowRes.status).toStrictEqual(200);
-    expect(cartRowData.data.products[2].quantity).toStrictEqual(2);
+    expect(cartRowData.data.products[0].quantity).toStrictEqual(2);
     done();
   });
   test("Product should see its quantity decreased", async (done) => {
@@ -100,7 +100,7 @@ describe("Cart", () => {
     const cartRowData = await cartRowRes.json();
     expect(decreaseRes.status).toStrictEqual(200);
     expect(cartRowRes.status).toStrictEqual(200);
-    expect(cartRowData.data.products[2].quantity).toStrictEqual(1);
+    expect(cartRowData.data.products[0].quantity).toStrictEqual(1);
     done();
   });
   test("The product row should be deleted", async (done) => {
@@ -113,7 +113,7 @@ describe("Cart", () => {
     const cartRowData = await cartRowRes.json();
     expect(removeRes.status).toStrictEqual(200);
     expect(cartRowRes.status).toStrictEqual(200);
-    expect(cartRowData.data.products[2]).toStrictEqual(undefined);
+    expect(cartRowData.data.products[0]).toStrictEqual(undefined);
     done();
   });
   test("The cart should be cleared", async (done) => {
