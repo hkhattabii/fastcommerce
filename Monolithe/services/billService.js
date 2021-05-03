@@ -3,13 +3,9 @@ const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
 const UPDATE_STATEMENT = require("@/constants/queries/update");
 const response = require("@/lib/response");
-const { Pool } = require("pg");
 const cartService = require("./cartService");
-const pool = new Pool({
-  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
-});
+const pool = require('@/lib/db')
 
-pool.connect();
 
 const billService = {
   get: async (user_id, bill_id) => {

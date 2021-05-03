@@ -1,14 +1,9 @@
 const INSERT_STATEMENT = require('@/constants/queries/insertion');
 const SELECT_STATEMENT = require('@/constants/queries/select');
 const randomize = require('randomatic');
-const { Pool } = require('pg');
 const UPDATE_STATEMENT = require('@/constants/queries/update');
 const DELETE_STATEMENT = require('@/constants/queries/delete');
-const pool = new Pool({
-  connectionString: 'postgresql://postgres:root@localhost:5432/postgres',
-});
-
-pool.connect();
+const pool = require('@/lib/db')
 
 const passwordReqService = {
   getAll: async () => {

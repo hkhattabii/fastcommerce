@@ -3,13 +3,8 @@ const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
 const UPDATE_STATEMENT = require("@/constants/queries/update");
 const response = require("@/lib/response");
-const { Pool } = require("pg");
 const discountCodeService = require("./discountCodeService");
-const pool = new Pool({
-  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
-});
-
-pool.connect();
+const pool = require('@/lib/db')
 
 function getTotalPrice(cart_rows) {
   const basePrice = cart_rows.reduce((a, { price }) => a + parseFloat(price), 0)
