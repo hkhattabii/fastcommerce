@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: monolith
+  labels:
+    name: monolith
+    app: fastcommerce
+spec:
+  containers:
+    - image: hkhattabi/monolith
+      name: monolith
+      ports:
+        - name: monolith
+          containerPort: 6000
