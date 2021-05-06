@@ -1,6 +1,6 @@
 const devUrl = "postgresql://postgres:root@localhost:5432/postgres"
-const testUrl = "postgresql://postgres:root@fastcommerce-db/test"
-const prodUrl = "postgresql://postgres:root@fastcommerce-db/postgres"
+const testUrl = "postgresql://postgres:root@localhost:5432/test"
+const prodUrl = "postgresql://postgres:root@monolith-db/postgres"
 
 
 function dbConnector(environment) {
@@ -12,7 +12,7 @@ function dbConnector(environment) {
         case "production":
             return prodUrl
         default:
-            return
+            return devUrl
     }
 }
 

@@ -3,27 +3,18 @@ const { Pool, types } = require('pg');
 const TABLES = require('../constants/queries/tables');
 const CREATE_TABLE_STATEMENTS = require('../constants/queries/create');
 const BOOTSTRAP_DATA = require('../constants/queries/bootstrap');
+const dbConnector = require('./db-connector');
 
 const pool = new Pool({
-  connectionString: 'postgresql://postgres:root@localhost:5432/postgres',
+  connectionString: dbConnector(process.env.ENV)
 });
 
+pool.connect()
+
 types.setTypeParser(types.builtins.FLOAT4, BigInt)
-pool.connect();
 
 runner.task('bootstrap-database', async () => {
   await init();
-});
-
-
-runner.watch('pages/api/*', async (done) => {
-  await init();
-  done();
-});
-
-runner.watch('services/*', async (done) => {
-  await init();
-  done();
 });
 
 

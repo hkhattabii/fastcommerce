@@ -1,8 +1,16 @@
 const DELETE_STATEMENT = require("@/constants/queries/delete");
 const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
+const dbConnector = require("@/lib/db-connector");
 const response = require("@/lib/response");
-const pool = require('@/lib/db')
+const { Pool } = require("pg");
+
+
+const pool = new Pool({
+  connectionString: dbConnector(process.env.ENV)
+});
+
+pool.connect()
 
 const productService = {
   getAll: async ({ filter, direction }) => {

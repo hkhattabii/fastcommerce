@@ -3,7 +3,15 @@ const randomize = require('randomatic');
 const response = require("@/lib/response");
 const DELETE_STATEMENT = require("@/constants/queries/delete");
 const SELECT_STATEMENT = require("@/constants/queries/select");
-const pool = require('@/lib/db')
+const { Pool } = require("pg");
+const dbConnector = require("@/lib/db-connector");
+
+
+const pool = new Pool({
+  connectionString: dbConnector(process.env.ENV)
+});
+
+pool.connect()
 
 const discountCodeService = {
   get: async (id, code) => {

@@ -3,20 +3,53 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npx runner -c ./lib/runner.js bootstrap-database\" \"next dev\"",
-    "bootstrap": "npx runner -c ./lib/runner.js bootstrap-database",
+    "dev": "better-npm-run start:dev",
+    "start": "better-npm-run start:prod",
+    "test": "better-npm-run start:test",
     "build": "next build",
-    "start": "next start",
-    "test": "concurrently \"next dev\" \"jest --detectOpenHandles\" ",
-    "test-user": "concurrently \"next dev\" \"jest ./test/userService.test.js --detectOpenHandles\"",
-    "test-password-request": "concurrently \"next dev\" \"jest ./test/passwordReqService.test.js --detectOpenHandles\"",
+    "test-all": "jest --detectOpenHandles",
+    "test-user": "better-npm-run test:user",
+    "test-password-request": "better-npm-run test:password-request",
     "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
     "test-bill": "concurrently \"next dev\" \"jest ./test/billService.test.js --detectOpenHandles\"",
     "test-backup": "concurrently \"next dev\" \"jest ./test/backupService.test.js --detectOpenHandles\"",
     "test-history": "concurrently \"next dev\" \"jest ./test/historyService.test.js --detectOpenHandles\""
   },
+  "betterScripts": {
+    "start:dev": {
+      "command": "concurrently \"npx runner -c ./lib/runner.js bootstrap-database\" \"next dev\"",
+      "env": {
+        "ENV": "development"
+      }
+    },
+    "start:test": {
+      "command":  "concurrently \"npx runner -c ./lib/runner.js bootstrap-database\" \"next dev\"",
+      "env": {
+        "ENV": "test"
+      }
+    },
+    "start:prod": {
+      "command": "next start",
+      "env": {
+        "ENV": "production"
+      }
+    },
+    "test:user": {
+      "command": "jest ./test/userService.test.js --detectOpenHandles",
+      "env": {
+        "ENV": "test"
+      }
+    },
+    "test:password-request": {
+      "command": "jest ./test/passwordReqService.test.js --detectOpenHandles",
+      "env": {
+        "ENV": "test"
+      }
+    }
+  },
   "dependencies": {
     "axios": "^0.21.1",
+    "better-npm-run": "^0.1.1",
     "isomorphic-unfetch": "^3.1.0",
     "next": "10.0.9",
     "next-server": "^9.0.5",

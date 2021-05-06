@@ -2,9 +2,17 @@ const DELETE_STATEMENT = require("@/constants/queries/delete");
 const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
 const UPDATE_STATEMENT = require("@/constants/queries/update");
+const dbConnector = require("@/lib/db-connector");
 const response = require("@/lib/response");
+const { Pool } = require("pg");
 const discountCodeService = require("./discountCodeService");
-const pool = require('@/lib/db')
+
+
+const pool = new Pool({
+  connectionString: dbConnector(process.env.ENV)
+});
+
+pool.connect()
 
 function getTotalPrice(cart_rows) {
   const basePrice = cart_rows.reduce((a, { price }) => a + parseFloat(price), 0)
@@ -18,6 +26,7 @@ const cartService = {
   get: async (user_id) => {
     try {
       const cart = await pool.query(SELECT_STATEMENT.CRT.BYUSER, [user_id]);
+      console.log('CART : ', cart)
       const cart_rows = await pool.query(SELECT_STATEMENT.CRT_ROW.BYCART, [cart.rows[0].user_id]);
       return response.success(null, {
         id: cart.rows[0].user_id,
