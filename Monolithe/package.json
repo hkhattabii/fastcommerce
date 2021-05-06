@@ -7,7 +7,7 @@
     "start": "better-npm-run start:prod",
     "test": "better-npm-run start:test",
     "build": "next build",
-    "test-all": "jest --detectOpenHandles",
+    "test-all": "better-npm-run test:all",
     "test-user": "better-npm-run test:user",
     "test-password-request": "better-npm-run test:password-request",
     "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
@@ -17,7 +17,7 @@
   },
   "betterScripts": {
     "start:dev": {
-      "command": "concurrently \"npx runner -c ./lib/runner.js bootstrap-database\" \"next dev\"",
+      "command": "next dev",
       "env": {
         "ENV": "development"
       }
@@ -32,6 +32,12 @@
       "command": "next start",
       "env": {
         "ENV": "production"
+      }
+    },
+    "test:all": {
+      "command": "jest --detectOpenHandles",
+      "env": {
+        "ENV": "test"
       }
     },
     "test:user": {
