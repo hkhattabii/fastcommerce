@@ -11,4 +11,4 @@ spec:
       name: monolith
       ports:
         - name: monolith
-          containerPort: 6000
+          containerPort: 3000
