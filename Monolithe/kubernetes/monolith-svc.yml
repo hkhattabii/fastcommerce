@@ -11,7 +11,7 @@ spec:
   type: NodePort
   ports:
     - name: monolith
-      port: 6000
-      targetPort: 6000
-      nodePort: 36000
+      port: 3000
+      targetPort: 3000
+      nodePort: 30006
       protocol: TCP
