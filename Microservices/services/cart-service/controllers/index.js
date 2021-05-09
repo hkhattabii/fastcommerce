@@ -28,9 +28,6 @@ controller.get("/", async (req, res) => {
       carts = await Cart.findOne({ _id: user_id, "products._id": product_id}).select({ products: 1, _id: 0});
     } else if (user_id) {
       const cart  = await Cart.findOne({ _id: user_id});
-      if (!cart) {
-        return res.status(404).json(renderError("L'utilisateur n'existe pas"))
-      }
       res.status(200).json(renderSuccess(null, {
         ...cart._doc,
         total: getTotalPrice(cart._doc)

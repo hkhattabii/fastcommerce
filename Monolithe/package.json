@@ -10,7 +10,7 @@
     "test-all": "better-npm-run test:all",
     "test-user": "better-npm-run test:user",
     "test-password-request": "better-npm-run test:password-request",
-    "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
+    "test-cart": "better-npm-run test:cart",
     "test-bill": "concurrently \"next dev\" \"jest ./test/billService.test.js --detectOpenHandles\"",
     "test-backup": "concurrently \"next dev\" \"jest ./test/backupService.test.js --detectOpenHandles\"",
     "test-history": "concurrently \"next dev\" \"jest ./test/historyService.test.js --detectOpenHandles\""
@@ -48,6 +48,12 @@
     },
     "test:password-request": {
       "command": "jest ./test/passwordReqService.test.js --detectOpenHandles",
+      "env": {
+        "ENV": "test"
+      }
+    },
+    "test:cart": {
+      "command": "jest ./test/cartService.test.js --detectOpenHandles",
       "env": {
         "ENV": "test"
       }

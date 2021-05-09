@@ -45,7 +45,6 @@ describe("User", () => {
       },
     });
     const data = await res.json();
-    console.log(data)
     expect(res.status).toStrictEqual(200);
     expect(data).toMatchObject({
       message: "Merci pour votre inscription !",

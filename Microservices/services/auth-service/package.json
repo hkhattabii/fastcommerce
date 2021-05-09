@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "better-npm-run start:dev",
     "start:prod": "better-npm-run start:prod",
+    "start:test": "better-npm-run start:test",
     "test:dev": "concurrently \"better-npm-run start:dev\" \"better-npm-run test:dev\"",
     "test:prod": "concurrently \"better-npm-run start:prod\" \"better-npm-run test:prod\"",
     "test": "jest --detectOpenHandles"
@@ -23,16 +24,10 @@
         "ENV": "production"
       }
     },
-    "test:dev": {
-      "command": "npm run test",
+    "start:test": {
+      "command": "node index.js",
       "env": {
-        "ENV": "development"
-      }
-    },
-    "test:prod": {
-      "command": "npm run test",
-      "env": {
-        "ENV": "production"
+        "ENV": "test"
       }
     }
   },

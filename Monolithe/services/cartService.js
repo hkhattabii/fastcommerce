@@ -14,10 +14,11 @@ const pool = new Pool({
 
 pool.connect()
 
-function getTotalPrice(cart_rows) {
-  const basePrice = cart_rows.reduce((a, { price }) => a + parseFloat(price), 0)
-  if (cart_rows.reduction > 0) {
-    return basePrice - cart_rows.reduction
+function getTotalPrice(cart_rows, reduction) {
+  const basePrice = Math.round(cart_rows.reduce((a, { price }) => a + parseFloat(price), 0) * 100) / 100
+
+  if (reduction > 0) {
+    return Math.round((basePrice - reduction) * 100) / 100 
   }
   return basePrice
 }
@@ -26,13 +27,12 @@ const cartService = {
   get: async (user_id) => {
     try {
       const cart = await pool.query(SELECT_STATEMENT.CRT.BYUSER, [user_id]);
-      console.log('CART : ', cart)
       const cart_rows = await pool.query(SELECT_STATEMENT.CRT_ROW.BYCART, [cart.rows[0].user_id]);
       return response.success(null, {
         id: cart.rows[0].user_id,
         reduction: cart.rows[0].reduction,
         products: cart_rows.rows,
-        total: getTotalPrice(cart_rows.rows)
+        total: getTotalPrice(cart_rows.rows, cart.rows[0].reduction)
       });
     } catch (err) {
       throw response.error(err.message);

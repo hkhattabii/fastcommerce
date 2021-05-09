@@ -48,7 +48,6 @@ const crt = {
   ]
 }
 
-
 const backup_row = {
   STATEMENT: INSERT_BACKUP_ROW,
   VALUES: [

@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: monolith
+  name: gateway
   labels:
-    name: monolith
+    name: gateway
     app: fastcommerce
 spec:
   containers:
-    - image: hkhattabi/monolith
-      name: monolith
+    - image: hkhattabi/gateway
+      name: gateway
       ports:
-        - name: monolith
+        - name: gateway
           containerPort: 3000
 
 
