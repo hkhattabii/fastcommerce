@@ -9,7 +9,7 @@ elastic_url = 'http://product-db:9200/fastcommerce/products'
 
 
 def renderSuccess(message, data):
-    return jsonify({'message': message, 'success': True, 'data:': data})
+    return jsonify({'message': message, 'success': True, 'data': data})
 
 
 def renderError(message):
