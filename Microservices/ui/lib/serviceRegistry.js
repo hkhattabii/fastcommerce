@@ -22,7 +22,7 @@ const PRODUCT_SERVICE = {
   ALL: "http://167.172.41.60:30002/all",
   FILTER: "http://167.172.41.60:30002/filter",
   SEARCH: (query) => `http://167.172.41.60:30002/search?query=${query}`,
-  DELETE: (id) => `http://167.172.41.60:30002/${id}`,
+  BYID: (id) => `http://167.172.41.60:30002/${id}`,
 };
 
 const DISCOUNT_CODE_SERVICE = {
@@ -80,6 +80,17 @@ const BACKUP_SERVICE = {
   },
 };
 
+const HISTORY_SERVICE = {
+  ROOT: (user_id, product_id) => {
+    return user_id && product_id
+      ? `http://167.172.41.60:30008?user_id=${user_id}&product_id=${product_id}`
+      : user_id
+      ? `http://167.172.41.60:30008?user_id=${user_id}`
+      : `http://167.172.41.60:30008`;
+  },
+};
+
+
 module.exports = {
   AUTH_SERVICE,
   PWD_REQ_SERVICE,
@@ -89,4 +100,5 @@ module.exports = {
   BILL_SERVICE,
   DELIVERY_SERVICE,
   BACKUP_SERVICE,
+  HISTORY_SERVICE
 };

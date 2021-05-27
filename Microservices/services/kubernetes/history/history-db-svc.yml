@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: history-db
+  labels:
+    name: history-db
+    app: fastcommerce
+spec:
+  selector:
+    name: history-db
+  type: ClusterIP
+  ports:
+    - name: history-db
+      port: 27017
+      targetPort: 27017
