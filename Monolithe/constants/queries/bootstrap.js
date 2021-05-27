@@ -2,7 +2,6 @@ const {
   INSERT_USR,
   INSERT_PWD_REQ,
   INSERT_PRDT,
-  INSER_CRT_ROW,
   INSERT_BACKUP_ROW,
   INSERT_HISTORY_ROW,
   INSERT_DISC_CODE,
@@ -47,7 +46,6 @@ const crt = {
     [2]
   ]
 }
-
 
 const backup_row = {
   STATEMENT: INSERT_BACKUP_ROW,

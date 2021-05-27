@@ -2,14 +2,17 @@ const DELETE_STATEMENT = require("@/constants/queries/delete");
 const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
 const UPDATE_STATEMENT = require("@/constants/queries/update");
+const dbConnector = require("@/lib/db-connector");
 const response = require("@/lib/response");
 const { Pool } = require("pg");
 const cartService = require("./cartService");
+
 const pool = new Pool({
-  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
+  connectionString: dbConnector(process.env.ENV)
 });
 
-pool.connect();
+pool.connect()
+
 
 const billService = {
   get: async (user_id, bill_id) => {

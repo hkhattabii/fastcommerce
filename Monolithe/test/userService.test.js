@@ -12,8 +12,8 @@ const userPost = {
   repeatedPassword: "hamza123",
 };
 
-beforeAll(() => {
-  return init();
+beforeAll(async () => {
+  return await init();
 });
 
 describe("User", () => {

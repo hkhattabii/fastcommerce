@@ -1,13 +1,15 @@
 const DELETE_STATEMENT = require("@/constants/queries/delete");
 const { INSERT_BACKUP_ROW } = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
+const dbConnector = require("@/lib/db-connector");
 const response = require("@/lib/response");
 const { Pool } = require("pg");
+
 const pool = new Pool({
-  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
+  connectionString: dbConnector(process.env.ENV)
 });
 
-pool.connect();
+pool.connect()
 
 const backupService = {
   getAll: async (user_id) => {

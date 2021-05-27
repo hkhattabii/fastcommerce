@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: monolith
+  labels:
+    name: monolith
+    app: fastcommerce
+spec:
+  selector:
+    name: monolith
+  type: NodePort
+  ports:
+    - name: monolith
+      port: 3000
+      targetPort: 3000
+      nodePort: 30006
+      protocol: TCP

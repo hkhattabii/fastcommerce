@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 5009
 
 
 init().then(() => {
-  console.log('OUOOOOH')
   app.listen(PORT, async () => console.log(`Discount code service is running on port ${PORT} ...`));
 }).catch(err => console.log('There are database issue'))
 

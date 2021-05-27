@@ -1,14 +1,17 @@
 const INSERT_STATEMENT = require("@/constants/queries/insertion");
 const randomize = require('randomatic');
 const response = require("@/lib/response");
-const { Pool } = require("pg");
 const DELETE_STATEMENT = require("@/constants/queries/delete");
 const SELECT_STATEMENT = require("@/constants/queries/select");
+const { Pool } = require("pg");
+const dbConnector = require("@/lib/db-connector");
+
+
 const pool = new Pool({
-  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
+  connectionString: dbConnector(process.env.ENV)
 });
 
-pool.connect();
+pool.connect()
 
 const discountCodeService = {
   get: async (id, code) => {

@@ -1,14 +1,16 @@
 const { INSERT_USR, INSERT_CRT } = require("@/constants/queries/insertion");
 const SELECT_STATEMENT = require("@/constants/queries/select");
+const dbConnector = require("@/lib/db-connector");
 const response = require("@/lib/response");
-
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  connectionString: "postgresql://postgres:root@localhost:5432/postgres",
+  connectionString: dbConnector(process.env.ENV)
 });
 
-pool.connect();
+console.log('URL : ', dbConnector(process.env.ENV))
+
+pool.connect()
 
 const userService = {
   getUsers: async (id) => {
