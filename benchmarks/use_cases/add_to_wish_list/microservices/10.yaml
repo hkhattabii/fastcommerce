@@ -1,0 +1,13 @@
+---
+base: 'http://167.172.41.60:30000' # API GATEWAY | local: http://192.168.1.41:3000 | prod: http://167.172.41.60:30000
+concurrency: 1
+iterations: 1
+plan:
+  - name: Add product to wishlist
+    request:
+      url: /api/backups
+      method: POST
+      body: '{"user_id": "{{ item.id }}", "product_id": "ivDDrnkB2zaSQ6siBG9B", "product": {"name": "Air Jordan 1", "imageUrl": "my image"}}'
+      headers:
+        Content-Type: application/json
+    with_items_from_csv: ../../../mocks/10/users_registered_ms.csv
