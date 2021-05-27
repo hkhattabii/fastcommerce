@@ -29,7 +29,6 @@ def deleteProducts():
         return renderError(response.json())
     return renderSuccess('Les produits ont été supprimés', response.json())
 
-
 def deleteProduct(id):
     response = requests.delete(elastic_url + '/' + id)
     if 'error' in response.json():
@@ -48,6 +47,11 @@ def getAllProducts():
 
     return renderSuccess(None, response.json()['hits'])
 
+def getProduct(id):
+    response = requests.get(elastic_url + '/' + id)
+    if 'error' in response.json():
+        return renderError(response.json())
+    return renderSuccess(None, response.json())
 
 def filterProducts(field, order):
     response = requests.post(elastic_url + "/_search", json={
@@ -106,7 +110,10 @@ def index():
 @app.route('/<id>', methods=['GET', 'DELETE'])
 def product(id):
     response = {}
-    if request.method == 'DELETE':
+    if request.method == 'GET':
+        response = getProduct(id)
+        return response
+    elif request.method == 'DELETE':
         response = deleteProduct(id)
         return response
 

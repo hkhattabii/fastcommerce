@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: history
+  labels:
+    name: history
+    app: fastcommerce
+spec:
+  containers:
+    - image: hkhattabi/history-svc
+      name: history
+      ports:
+        - name: history
+          containerPort: 5017
