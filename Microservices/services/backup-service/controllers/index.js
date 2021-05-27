@@ -53,19 +53,19 @@ controller.delete("/", async (req, res) => {
       });
       res
         .status(200)
-        .json(renderSuccess(`Le backup ${product_id} de l'utilisateur ${user_id} a été supprimé`));
+        .json(renderSuccess(`Le souhait ${product_id} de l'utilisateur ${user_id} a été supprimé`));
     } else if (user_id) {
       await Backup.deleteMany({ user_id: req.query.user_id });
       res
         .status(200)
         .json(
           renderSuccess(
-            `Les backups de l'utilisateur ${user_id} ont été supprimés`
+            `Les souhaits de l'utilisateur ${user_id} ont été supprimés`
           )
         );
     } else {
       await Backup.deleteMany()
-      res.status(200).json('Tous les backups ont été supprimés')
+      res.status(200).json('Tous les souhaits ont été supprimés')
     }
   } catch (err) {
     res.status(400).json(renderError(err.message));
