@@ -5,4 +5,4 @@ EXPOSE 5003
 ENV ENV=production
 ENV PORT=5003
 RUN npm install --production
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:prod"]
