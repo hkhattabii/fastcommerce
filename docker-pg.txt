@@ -1,5 +1,5 @@
 //Databases
-postgres: docker run -p 127.0.0.1:5432:5432 --name postgres -e POSTGRES_PASSWORD=root -d postgres
+postgres: docker run -p 127.0.0.1:5432:5432 --name postgres -e POSTGRES_PASSWORD=root -d hkhattabi/monolith-db
 postgres-test: docker run -p 127.0.0.1:5432:5432 --name postgres -e POSTGRES_PASSWORD=root -e POSTGRES_DB=test -d postgres
 authservice: docker run -p 127.0.0.1:5002:27017 --name auth-db -d mongo
 passwordRequestService: docker run -p 127.0.0.1:5004:5432 --name password-request-db -e POSTGRES_PASSWORD=root -d postgres
