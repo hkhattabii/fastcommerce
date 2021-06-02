@@ -1,0 +1,13 @@
+---
+base: 'http://134.209.83.47:30001'
+concurrency: 1
+iterations: 1
+plan:
+  - name: sign up
+    request:
+      url: /api/users/signIn
+      method: POST
+      body: '{"email": "{{ item.email }}", "password": "{{ item.password }}"}'
+      headers:
+        Content-Type: application/json
+    with_items_from_csv: ../../../mocks/100/users.csv
