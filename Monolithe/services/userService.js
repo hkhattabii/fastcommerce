@@ -8,8 +8,6 @@ const pool = new Pool({
   connectionString: dbConnector(process.env.ENV)
 });
 
-console.log('URL : ', dbConnector(process.env.ENV))
-
 pool.connect()
 
 const userService = {

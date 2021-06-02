@@ -41,6 +41,15 @@ const productService = {
       throw response.error(err.message);
     }
   },
+  getOne: async (product_id, user_id) => {
+    try {
+      request = await pool.query(SELECT_STATEMENT.PRDT.BYID, [product_id])
+      await pool.query(INSERT_STATEMENT.INSERT_HISTORY_ROW, [user_id, product_id])
+      return response.success(null, request.rows[0])
+    } catch (err) {
+      throw response.error(err.message);
+    }
+  },
   createProduct: async ({ imgs, ...body }) => {
     try {
       await pool.query(

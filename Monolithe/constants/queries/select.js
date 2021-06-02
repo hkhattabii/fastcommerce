@@ -11,6 +11,7 @@ const SELECT_STATEMENT = {
     BYIDANDCODE: `SELECT * FROM pwd_req where id = $1 AND code = $2`,
   },
   PRDT: {
+    BYID: `SELECT * FROM PRDT WHERE id = $1`,
     ALLBASE: `SELECT
   PRDT.NAME,
   PRDT.id,

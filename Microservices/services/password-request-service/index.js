@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require('cors')
 const controller = require("./controllers");
+const init = require("./db/init");
 
 const app = express();
 
@@ -13,6 +14,9 @@ app.use("/", controller);
 
 const PORT = process.env.PORT || 5003
 
-app.listen(PORT, async () => {
-  console.log(`Password requests service is running on port ${PORT} ...`);
-});
+
+init().then(() => {
+  app.listen(PORT, async () => console.log(`Discount code service is running on port ${PORT} ...`));
+}).catch(err => console.log('There are database issue'))
+
+
