@@ -1,0 +1,6 @@
+const SELECT_STATEMENT = {
+    ALL: `SELECT * FROM DISC_CODE`,
+    BYCODE: `SELECT reduction FROM DISC_CODE WHERE code = $1`
+}
+
+module.exports = SELECT_STATEMENT

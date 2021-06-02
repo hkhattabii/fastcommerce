@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: delivery
+  labels:
+    name: delivery
+    app: fastcommerce
+spec:
+  containers:
+    - image: hkhattabi/delivery-svc
+      name: delivery
+      ports:
+        - name: delivery
+          containerPort: 5015

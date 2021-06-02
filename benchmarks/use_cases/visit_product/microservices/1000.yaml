@@ -1,0 +1,10 @@
+---
+base: 'http://167.172.41.60:30000' # API GATEWAY | local: http://192.168.1.41:3000 | prod: http://167.172.41.60:30000
+concurrency: 1
+iterations: 1
+plan:
+  - name: Visit product
+    request:
+      url: /api/products/ivDDrnkB2zaSQ6siBG9B?user_id={{ item.id }}
+      method: GET
+    with_items_from_csv: ../../../mocks/1000/users_registered_ms.csv

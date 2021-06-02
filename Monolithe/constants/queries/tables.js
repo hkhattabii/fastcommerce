@@ -1,0 +1,18 @@
+const {
+  USR,
+  PWD_REQ,
+  PRDT,
+  DISC_CODE,
+  CRT,
+  CRT_ROW,
+  ADDRESS,
+  BILL,
+  BILLPRDT,
+  DELIVERY,
+  BACKUP,
+  HISTORY,
+} = require('./strings');
+
+const TABLES = [USR, PWD_REQ, PRDT, DISC_CODE, CRT, CRT_ROW, ADDRESS, BILL, BILLPRDT, DELIVERY, BACKUP, HISTORY];
+
+module.exports = TABLES;

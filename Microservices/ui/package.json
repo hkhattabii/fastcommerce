@@ -1,0 +1,49 @@
+{
+  "name": "fastcommerce",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "bootstrap": "npx runner -c ./lib/runner.js bootstrap-database",
+    "build": "next build",
+    "start": "next start",
+    "test": "concurrently \"next dev\" \"jest --detectOpenHandles\"",
+    "test-usr": "concurrently \"next dev\" \"jest ./test/userService.test.js --detectOpenHandles\"",
+    "test-pwdreq": "concurrently \"next dev\" \"jest ./test/passwordReqService.test.js --detectOpenHandles\"",
+    "test-product": "concurrently \"next dev\" \"jest ./test/productService.test.js --detectOpenHandles\"",
+    "test-cart": "concurrently \"next dev\" \"jest ./test/cartService.test.js --detectOpenHandles\"",
+    "test-bill": "concurrently \"next dev\" \"jest ./test/billService.test.js --detectOpenHandles\"",
+    "test-backup": "concurrently \"next dev\" \"jest ./test/backupService.test.js --detectOpenHandles\"",
+    "test-standalone": "jest --detectOpenHandles"
+  },
+  "dependencies": {
+    "@chakra-ui/icons": "^1.0.8",
+    "@chakra-ui/react": "^1.4.2",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "@types/pg": "^7.14.11",
+    "axios": "^0.21.1",
+    "babel-jest": "^26.6.3",
+    "framer-motion": "^4.1.2",
+    "http": "0.0.1-security",
+    "isomorphic-unfetch": "^3.1.0",
+    "next": "10.0.9",
+    "next-server": "^9.0.5",
+    "next-test-api-route-handler": "^1.2.23",
+    "pg": "^8.5.1",
+    "randomatic": "^3.1.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "runner": "^3.0.0",
+    "swr": "^0.5.5",
+    "test-listen": "^1.1.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
+    "jest": "^26.6.3",
+    "jsconfig-paths-jest-mapper": "^1.0.0",
+    "typescript": "^4.2.3"
+  }
+}

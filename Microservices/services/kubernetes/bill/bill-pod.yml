@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bill
+  labels:
+    name: bill
+    app: fastcommerce
+spec:
+  containers:
+    - image: hkhattabi/bill-svc
+      name: bill
+      ports:
+        - name: bill
+          containerPort: 5011

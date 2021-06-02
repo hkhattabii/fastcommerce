@@ -1,0 +1,13 @@
+---
+base: 'http://167.172.41.60:30000' # API GATEWAY
+concurrency: 1
+iterations: 1
+plan:
+  - name: sign up
+    request:
+      url: /api/users/signIn
+      method: POST
+      body: '{"email": "{{ item.email }}", "password": "{{ item.password }}"}'
+      headers:
+        Content-Type: application/json
+    with_items_from_csv: ../../../mocks/1000/users.csv
