@@ -64,10 +64,7 @@ describe("User", () => {
     });
     const data = await res.json();
     expect(res.status).toStrictEqual(400);
-    expect(data).toStrictEqual({
-      message: "Les mots de passes doivent être identiques",
-      success: false,
-    });
+    expect(data.message).toStrictEqual("Les mots de passes doivent être identiques");
     done();
   });
   test("User should not be inserted (email already exists)", async (done) => {
